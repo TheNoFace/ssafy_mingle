@@ -23,6 +23,9 @@ class Genre(models.Model):
     tmdb_id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=50)
     movies = models.ManyToManyField(Movie, related_name="genres")
+    liked_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name="liked_genres"
+    )
 
 
 class Review(models.Model):
@@ -44,3 +47,6 @@ class Comment(models.Model):
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    liked_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name="liked_comments"
+    )
