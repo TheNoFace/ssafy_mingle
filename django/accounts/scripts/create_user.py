@@ -39,7 +39,7 @@ def run():
         if User.objects.filter(username=f"fakeruser{i}"):
             continue
 
-        user = User.objects.create(
+        user = User.objects.create_user(
             username=f"fakeruser{i}",
             nickname=fake.bothify(text="??????##"),
             # 비밀번호는 `테스트123`으로 통일
