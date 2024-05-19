@@ -31,9 +31,10 @@ def get_movie_list(request, standard):
             
             movie_list = []
             for category in random_category:
+                movie_list_inner = [category.name]
                 movies = category.movies.all()[:10]
                 serializer = MovieListSerializer(movies, many = True)
-                movie_list.append(serializer.data)
+                movie_list_inner.append(serializer.data)
+                movie_list.append(movie_list_inner)
             
             return Response(movie_list, status = status.HTTP_200_OK)
-
