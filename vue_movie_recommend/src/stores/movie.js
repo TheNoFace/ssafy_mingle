@@ -3,7 +3,9 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 
 export const useMovieStore = defineStore('movie', () => {
-  const popularMovieList = ref([])
+  const popularityMovieList = ref([])
+  const releaseMovieList = ref([])
+  const categoryMovieList = ref([])
   const BASE_URL = 'http://127.0.0.1:8000'
 
   const getMovieList = function (standard) {
@@ -13,7 +15,13 @@ export const useMovieStore = defineStore('movie', () => {
     })
       .then(response => {
         if (standard === 'popularity') {
-          popularMovieList.value = response.data
+          popularityMovieList.value = response.data
+          // console.log(popularityMovieList.value)
+        } else if (standard === 'release_date') {
+          releaseMovieList.value = response.data
+        } else if (standard === 'category') {
+          categoryMovieList.value = response.data
+          // console.log(response.data)
         }
       })
       .catch(error => {
@@ -22,7 +30,9 @@ export const useMovieStore = defineStore('movie', () => {
   }
 
   return { 
-    popularMovieList,
+    popularityMovieList,
+    releaseMovieList,
+    categoryMovieList,
     BASE_URL,
     getMovieList,
    }
