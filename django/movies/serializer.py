@@ -5,3 +5,4 @@ class MovieListSerializer(serializers.ModelSerializer):
   class Meta:
     model = Movie
     fields = '__all__'
+
