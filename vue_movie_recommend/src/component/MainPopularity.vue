@@ -1,5 +1,5 @@
 <template>
-  <div v-if="store.popularMovieList.length">
+  <div v-if="store.popularityMovieList.length">
     <div id="carouselExampleCaptions" class="carousel slide carousel-total-size">
       <div class="carousel-indicators" style="background-color: #ffffff00; padding-bottom: 40px;">
         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -8,11 +8,11 @@
       <div class="carousel-inner">
         <MainPopularityCard 
         :isActive="true"
-        :movie="store.popularMovieList[0]"
+        :movie="store.popularityMovieList[0]"
         :rank="1"
         />
         <MainPopularityCard 
-        v-for="(movie, idx) in store.popularMovieList.slice(1)"
+        v-for="(movie, idx) in store.popularityMovieList.slice(1)"
         :key="movie.title"
         :isActive="false"
         :movie="movie"
