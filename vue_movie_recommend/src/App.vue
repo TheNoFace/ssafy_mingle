@@ -91,9 +91,7 @@ nav {
 .text-color {
   color: white
 } 
-</style>
 
-<style>
 .nav-router {
   color: white;
   text-decoration: none;

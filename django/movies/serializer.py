@@ -2,10 +2,16 @@ from rest_framework import serializers
 from .models import Movie, Genre, Review, Comment
 from accounts.serializers import UserSerializer
 
-class GenreListSerializer(serializers.ModelSerializer):
+class GenreNameSerializer(serializers.ModelSerializer):
   class Meta:
     model = Genre
-    fields = ('name', )
+    fields = '__all__'
+
+
+# class GenreListSerializer(serializers.ModelSerializer):
+#   class Meta:
+#     model = Genre
+#     fields = '__all__'
 
 
 class ReviewListSerializer(serializers.ModelSerializer):
@@ -40,7 +46,7 @@ class MovieReviewListSerializer(serializers.ModelSerializer):
 
 
 class MovieListSerializer(serializers.ModelSerializer):
-  genres = GenreListSerializer(many = True, read_only = True)
+  genres = GenreNameSerializer(many = True, read_only = True)
   review_set = ReviewListSerializer(many = True, read_only = True)
   review_count = serializers.IntegerField(source = 'review_set.count', read_only = True)
 
