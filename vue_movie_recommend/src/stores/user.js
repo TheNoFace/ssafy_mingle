@@ -17,22 +17,6 @@ export const useUserStore = defineStore('user', () => {
     }
   })
 
-  const userLogIn = function (payload) {
-    axios({
-      method: 'post',
-      url: `${AUTH_BASE_URL}/login/`,
-      data: payload
-    })
-    .then((response) => {
-      // console.log(response.data)
-      sessionData.value = response.data
-      router.push({ name: 'MainView' })
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  }
-
   const userSignUp = function (payload) {
     axios({
       method: 'post',
@@ -123,7 +107,6 @@ export const useUserStore = defineStore('user', () => {
     AUTH_BASE_URL,
     sessionData,
     isLogin,
-    userLogIn,
     userSignUp,
     getProfile,
     updateProfile,
