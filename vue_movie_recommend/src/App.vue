@@ -80,6 +80,10 @@ nav {
 * {
   background-color: #222831;
 }
+
+.text-color {
+  color: white
+} 
 </style>
 
 <style>
