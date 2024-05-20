@@ -14,11 +14,16 @@
           <!-- 로그인 폼 -->
           <h4 class="modal-login-text">로그인</h4>
           <div class="login-form-outer">
-            <form>
-              <input class="form-control login-form-inner" type="text" placeholder="아이디를 입력하세요.">
-              <input class="form-control login-form-inner" type="password" placeholder="비밀번호를 입력하세요.">
+            <form ref="loginForm" @submit.prevent="userLogIn">
+              <input class="form-control login-form-inner" type="text" placeholder="아이디를 입력하세요." name="username">
+              <input class="form-control login-form-inner" type="password" placeholder="비밀번호를 입력하세요." name="password">
               <input class="form-control login-form-submit" type="submit" value="로그인">
             </form>
+          </div>
+          <!-- 회원 가입 RouterLink -->
+          <hr>
+          <div class="text-center">
+            <RouterLink :to="{ name: 'SignUpView' }" class="nav-router">회원 가입</RouterLink>
           </div>
         </div>
       </div>
@@ -27,7 +32,17 @@
 </template>
 
 <script setup>
+import { useUserStore } from '@/stores/user';
+import { ref } from 'vue'
+import { RouterLink } from 'vue-router';
 
+const store = useUserStore()
+const loginForm = ref(null)
+
+const userLogIn = function () {
+  const payload = new FormData(loginForm.value)
+  store.userLogIn(payload)
+}
 </script>
 
 <style scoped>
@@ -68,7 +83,7 @@
 .login-form-inner {
   margin: 10px 0;
   background-color: #222831;
-  color: white  ;
+  color: white;
 }
 
 input::placeholder {
@@ -79,7 +94,6 @@ input::placeholder {
   border: none;
   margin: 10px 0;
   background-color: #76ABAE;
-  color: white  ;
+  color: white;
 }
-
 </style>
