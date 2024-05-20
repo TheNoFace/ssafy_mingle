@@ -1,8 +1,9 @@
 <template>
   <div class="carousel-item carousel-image" :class="{ active : isActive }">
-    <img :src="imageURL" alt="image" class="d-block w-100" @click="godetail(movie.tmdb_id)">
-    <h1 class="carousel-text m-0 nunito-text">{{ rank }}</h1>
-    <p class="carousel-content">{{ movie.title }}</p>
+    <img :src="backimageURL" alt="image" class="backdrop-image" @click="godetail(movie.tmdb_id)">
+    <img :src="posterimageURL" alt="image" class="d-block poster-image m-auto" @click="godetail(movie.tmdb_id)">
+    <h1 class="carousel-text m-0 nunito-text rank">{{ rank }}</h1>
+    <!-- <p class="carousel-content">{{ movie.title }}</p> -->
   </div>
 </template>
 
@@ -18,8 +19,12 @@ const props = defineProps({
   rank : Number
 });
 
-const imageURL = ref(
+const backimageURL = ref(
   `https://image.tmdb.org/t/p/original${props.movie.backdrop_path}`
+);
+
+const posterimageURL = ref(
+  `https://image.tmdb.org/t/p/original${props.movie.poster_path}`
 );
 
 const godetail = function (tmdb_id) {
@@ -57,5 +62,25 @@ const godetail = function (tmdb_id) {
   right: 30px;
   bottom: 30px;
   font-size: 80px;
+}
+
+.backdrop-image {
+  z-index: 1;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  filter : brightness(30%)
+}
+
+.poster-image {
+  position: relative;
+  width: 40%;
+  height: 100%;
+  z-index: 2;
+}
+
+.rank {
+  z-index: 2;
 }
 </style>
