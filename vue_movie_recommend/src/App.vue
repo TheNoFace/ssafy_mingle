@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="nav-right">
-        <button v-if="!userStore.isLogin" type="button" class="btn nav-router" data-bs-toggle="modal" data-bs-target="#login">
+        <button v-if="!userStore.isLogin" type="button" class="btn nav-router" @click="launchModal">
           Login
         </button>
         <LoginModal />
@@ -40,6 +40,7 @@ import { computed } from 'vue'
 import { RouterLink } from "vue-router"
 import LoginModal from "@/component/LoginModal.vue"
 import { useUserStore } from "./stores/user"
+import { Modal } from 'bootstrap'
 
 const userStore = useUserStore()
 const username = computed(() => {
@@ -48,6 +49,12 @@ const username = computed(() => {
   }
 })
 
+const launchModal = function () {
+  const logInModal = new Modal('#login', {
+    backdrop: true,
+  })
+  logInModal.show()
+}
 </script>
 
 <style scoped>

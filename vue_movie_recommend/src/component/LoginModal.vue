@@ -15,9 +15,9 @@
           <h4 class="modal-login-text">로그인</h4>
           <div class="login-form-outer">
             <form ref="loginForm" @submit.prevent="userLogIn">
-              <input class="form-control login-form-inner" type="text" placeholder="아이디를 입력하세요." name="username">
-              <input class="form-control login-form-inner" type="password" placeholder="비밀번호를 입력하세요." name="password">
-              <input class="form-control login-form-submit" type="submit" value="로그인">
+              <input class="form-control login-form-inner" type="text" placeholder="아이디를 입력하세요." name="username" v-model="usernameInput">
+              <input class="form-control login-form-inner" type="password" placeholder="비밀번호를 입력하세요." name="password" v-model="passwordInput">
+              <input class="form-control login-form-submit" type="submit" :value="logInBtn">
             </form>
           </div>
           <!-- 회원 가입 RouterLink -->
@@ -32,16 +32,44 @@
 </template>
 
 <script setup>
-import { useUserStore } from '@/stores/user';
+import { useUserStore } from '@/stores/user'
 import { ref } from 'vue'
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router'
+import { Modal } from 'bootstrap'
+import axios from 'axios'
 
-const store = useUserStore()
+const router = useRouter()
+const userStore = useUserStore()
 const loginForm = ref(null)
+const logInBtn = ref('로그인')
+const usernameInput = ref('')
+const passwordInput = ref('')
 
 const userLogIn = function () {
   const payload = new FormData(loginForm.value)
-  store.userLogIn(payload)
+  const logInModal = Modal.getInstance('#login')
+  logInBtn.value = '로그인 중...'
+  
+  axios({
+    method: 'post',
+    url: `${userStore.AUTH_BASE_URL}/login/`,
+    data: payload
+  })
+  .then((response) => {
+    userStore.sessionData = response.data
+    logInBtn.value = '로그인 완료!'
+    async function briefWait() {
+      await new Promise((resolve) => setTimeout(resolve, 500))
+      logInModal.hide()
+      router.push({ name: 'MainView' })
+      router.go(0)
+    }
+    briefWait()
+  })
+  .catch((error) => {
+    logInBtn.value = '로그인 실패'
+    console.log(error)
+  })
 }
 </script>
 
