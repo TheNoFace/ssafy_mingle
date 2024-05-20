@@ -3,6 +3,8 @@ import MainView from '@/views/MainView.vue'
 import CategoryView from '@/views/CategoryView.vue'
 import ReviewView from '@/views/ReviewView.vue'
 import ProfileView from '@/views/ProfileView.vue'
+import DetailView from '@/views/DetailView.vue'
+import MovieReviewView from '@/views/MovieReviewView.vue'
 import ProfileUpdateView from '@/views/ProfileUpdateView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 
@@ -23,6 +25,16 @@ const router = createRouter({
       path: '/review',
       name: 'ReviewView',
       component: ReviewView
+    },
+    {
+      path : '/detail/:tmdb_id',
+      name : 'DetailView',
+      component : DetailView,
+    },
+    {
+      path : '/detail/:tmdb_id/review',
+      name : 'MovieReviewView',
+      component : MovieReviewView
     },
     {
       path: '/profile/:username',

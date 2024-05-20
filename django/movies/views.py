@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 
 from .models import Movie, Genre, Review, Comment
 
-from .serializer import MovieListSerializer
+from .serializer import MovieListSerializer, MovieReviewListSerializer
 
 import random
 
@@ -38,3 +38,20 @@ def get_movie_list(request, standard):
                 movie_list.append(movie_list_inner)
             
             return Response(movie_list, status = status.HTTP_200_OK)
+
+@api_view(['GET'])
+def movie_detail(request, tmdb_id):
+    if request.method == 'GET':
+        movie = Movie.objects.get(pk = tmdb_id)
+        serializer = MovieListSerializer(movie)
+        return Response(serializer.data, status = status.HTTP_200_OK)
+
+@api_view(['GET'])
+def movie_review(request, tmdb_id):
+    if request.method == "GET":
+        movie = Movie.objects.get(pk = tmdb_id)
+        review_list = [movie.title]
+        reviews = movie.review_set.all()
+        serializer = MovieReviewListSerializer(reviews, many = True)
+        review_list.append(serializer.data)
+        return Response(review_list, status = status.HTTP_200_OK)

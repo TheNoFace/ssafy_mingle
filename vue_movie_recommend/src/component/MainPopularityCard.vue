@@ -1,6 +1,6 @@
 <template>
   <div class="carousel-item carousel-image" :class="{ active : isActive }">
-    <img :src="imageURL" alt="image" class="d-block w-100"/>
+    <img :src="imageURL" alt="image" class="d-block w-100" @click="godetail(movie.tmdb_id)">
     <h1 class="carousel-text m-0 nunito-text">{{ rank }}</h1>
     <p class="carousel-content">{{ movie.title }}</p>
   </div>
@@ -8,6 +8,9 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const props = defineProps({
   isActive: Boolean,
@@ -19,6 +22,9 @@ const imageURL = ref(
   `https://image.tmdb.org/t/p/original${props.movie.backdrop_path}`
 );
 
+const godetail = function (tmdb_id) {
+    router.push({ name : 'DetailView', params : { tmdb_id : tmdb_id} })
+}
 </script>
 
 <style scoped>
