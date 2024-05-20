@@ -8,6 +8,7 @@ export const useMovieStore = defineStore('movie', () => {
   const categoryMovieList = ref([])
   const detailMovie = ref([])
   const MovieReviewList = ref([])
+  const categoryList = ref([])
   const BASE_URL = 'http://127.0.0.1:8000'
 
   const getMovieList = function (standard) {
@@ -59,15 +60,31 @@ export const useMovieStore = defineStore('movie', () => {
       })
   }
 
+  const getCategoryList = function () {
+    axios({
+      method : 'get',
+      url : `${BASE_URL}/api/v1/movies/recommend/category/`,
+    })
+      .then(response => {
+        // console.log(response.data)
+        categoryList.value = response.data
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
   return { 
     popularityMovieList,
     releaseMovieList,
     categoryMovieList,
     detailMovie,
     MovieReviewList,
+    categoryList,
     BASE_URL,
     getMovieList,
     getDetailMovie,
     getMovieReview,
+    getCategoryList,
    }
 }, { persist: true })

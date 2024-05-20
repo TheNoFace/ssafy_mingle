@@ -7,6 +7,8 @@ import DetailView from '@/views/DetailView.vue'
 import MovieReviewView from '@/views/MovieReviewView.vue'
 import ProfileUpdateView from '@/views/ProfileUpdateView.vue'
 import SignUpView from '@/views/SignUpView.vue'
+import CategoryRecommendMovie from '@/component/CategoryRecommendMovie.vue'
+import CategoryMain from '@/component/CategoryMain.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,8 +20,19 @@ const router = createRouter({
     },
     {
       path: '/category',
-      name: 'CategoryView',
-      component: CategoryView
+      component : CategoryView,
+      children : [
+        {
+          path : '',
+          name : 'CategoryView',
+          component: CategoryMain,
+        },
+        {
+          path : ':category_id',
+          name : 'CategoryRecommendMovie',
+          component : CategoryRecommendMovie
+        }
+      ]
     },
     {
       path: '/review',
@@ -50,7 +63,7 @@ const router = createRouter({
       path: '/signup',
       name: 'SignUpView',
       component: SignUpView
-    }
+    },
   ]
 })
 
