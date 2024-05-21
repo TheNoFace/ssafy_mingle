@@ -19,11 +19,18 @@ class GenreMovieListSerializer(serializers.ModelSerializer):
 
 
 class MovieImageSerializer(serializers.ModelSerializer):
-    genres = GenreNameSerializer(many = True, read_only = True)
-    
+    genres = GenreNameSerializer(many=True, read_only=True)
+
     class Meta:
         model = Movie
-        fields = ("poster_path", "tmdb_id", "title", 'vote_average', 'release_date', 'genres',)
+        fields = (
+            "poster_path",
+            "tmdb_id",
+            "title",
+            "vote_average",
+            "release_date",
+            "genres",
+        )
 
 
 class ReviewCommentSerializer(serializers.ModelSerializer):
@@ -54,6 +61,13 @@ class ReviewListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = "__all__"
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = "__all__"
+        read_only_fields = ('user', 'movie', 'liked_users',)
 
 
 class MovieListSerializer(serializers.ModelSerializer):
