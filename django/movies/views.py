@@ -5,60 +5,75 @@ from rest_framework.decorators import api_view
 
 from .models import Movie, Genre, Review, Comment
 
-from .serializer import MovieListSerializer, MovieReviewListSerializer, GenreNameSerializer
+from .serializer import (
+    MovieListSerializer,
+    MovieReviewListSerializer,
+    GenreNameSerializer,
+    GenreMovieListSerializer,
+)
 
 import random
+
 
 # Create your views here.
 @api_view(["GET"])
 def get_movie_list(request, standard):
     if request.method == "GET":
         if standard == "popularity":
-            movies = get_list_or_404(Movie.objects.order_by('-popularity'))[:10]
-            serializer = MovieListSerializer(movies, many = True)
-            return Response(serializer.data, status = status.HTTP_200_OK)
+            movies = get_list_or_404(Movie.objects.order_by("-popularity"))[:10]
+            serializer = MovieListSerializer(movies, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
         elif standard == "release_date":
-            movies = get_list_or_404(Movie.objects.order_by('-release_date'))[:10]
-            serializer = MovieListSerializer(movies, many = True)
-            return Response(serializer.data, status = status.HTTP_200_OK)
+            movies = get_list_or_404(Movie.objects.order_by("-release_date"))[:10]
+            serializer = MovieListSerializer(movies, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
         elif standard == "category":
-            all_category = Genre.objects.all()
+            categories = random.choices(get_list_or_404(Genre), k=5)
 
-            random_category = list(all_category)[:5]
-            random.shuffle(random_category)
-            
-            movie_list = []
-            for category in random_category:
-                movie_list_inner = [category.name]
+            movie_list = {}
+            for category in categories:
                 movies = category.movies.all()[:10]
-                serializer = MovieListSerializer(movies, many = True)
-                movie_list_inner.append(serializer.data)
-                movie_list.append(movie_list_inner)
-            
-            return Response(movie_list, status = status.HTTP_200_OK)
+                serializer = MovieListSerializer(movies, many=True)
+                movie_list[category.name] = serializer.data
 
-@api_view(['GET'])
+            return Response(movie_list, status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
 def movie_detail(request, tmdb_id):
-    if request.method == 'GET':
-        movie = Movie.objects.get(pk = tmdb_id)
+    if request.method == "GET":
+        movie = Movie.objects.get(pk=tmdb_id)
         serializer = MovieListSerializer(movie)
-        return Response(serializer.data, status = status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-@api_view(['GET'])
+
+@api_view(["GET"])
 def movie_review(request, tmdb_id):
     if request.method == "GET":
-        movie = Movie.objects.get(pk = tmdb_id)
+        movie = Movie.objects.get(pk=tmdb_id)
         review_list = [movie.title]
         reviews = movie.review_set.all()
-        serializer = MovieReviewListSerializer(reviews, many = True)
+        serializer = MovieReviewListSerializer(reviews, many=True)
         review_list.append(serializer.data)
-        return Response(review_list, status = status.HTTP_200_OK)
+        return Response(review_list, status=status.HTTP_200_OK)
 
-@api_view(['GET'])
+
+@api_view(["GET"])
 def get_category(request):
-    if request.method == 'GET':
+    if request.method == "GET":
         genres = Genre.objects.all()
-        serializer = GenreNameSerializer(genres, many = True)
-        return Response(serializer.data, status = status.HTTP_200_OK)
+        serializer = GenreNameSerializer(genres, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(["GET"])
+def get_category_movie(request, genre_pk):
+    if request.method == "GET":
+        genre = Genre.objects.get(pk=genre_pk)
+        movie_list = [genre.name]
+        movies = genre.movies.all().order_by("-popularity")[:10]
+        serializer = MovieListSerializer(movies, many=True)
+        movie_list.append(serializer.data)
+        return Response(movie_list, status=status.HTTP_200_OK)

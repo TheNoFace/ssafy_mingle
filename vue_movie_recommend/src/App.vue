@@ -24,6 +24,7 @@
         <div v-if="userStore.isLogin">
           <RouterLink :to="{ name: 'ProfileView', params: { username: username } }">
             <i class="fa-solid fa-user p-3" style="color: #76abae; height: 30px" />
+            
           </RouterLink>
         </div>
       </div>
@@ -98,5 +99,13 @@ nav {
   padding-left: 10px;
   padding-right: 10px;
   font-size: large;
+}
+
+
+.category-button {
+  border: 2px solid #76abae;
+  margin: 0;
+  margin: 0 10px 10px 10px;
+  padding: 0 10px 0 10px;
 }
 </style>

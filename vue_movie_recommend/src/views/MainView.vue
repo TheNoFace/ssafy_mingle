@@ -1,16 +1,16 @@
 <template>
-    <div>
-        <Search class="searchBox"/>
-        <div class="container">
-            <MainPopularity/>
-        </div>
-        <div class="container">
-            <MainReleased/>
-        </div>
-        <div class="container">
-            <MainCategoryMovie/>
-        </div>
+  <div>
+    <Search class="searchBox" />
+    <div class="container">
+      <MainPopularity />
     </div>
+    <div class="container">
+      <MainReleased />
+    </div>
+    <div class="container">
+      <MainCategoryMovie />
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -22,6 +22,6 @@ import MainCategoryMovie from '@/component/MainCategoryMovie.vue'
 
 <style scoped>
 .searchBox {
-    margin : 50px;
+  margin: 50px;
 }
 </style>

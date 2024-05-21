@@ -1,7 +1,7 @@
 <template>
     <!-- <div class="col p-1"> -->
         <div class="scroll" style="background-color: #ffffff00; color: white; height: 100%">
-            <img :src="imageURL" :alt="movie.title" height="300px" style="margin: 10px;" @click="godetail(movie.tmdb_id)">
+          <img :src="imageURL" :alt="movie.title" height="300px" style="margin: 10px;" @click="godetail(movie.tmdb_id)">
         </div>
     <!-- </div> -->
 </template>

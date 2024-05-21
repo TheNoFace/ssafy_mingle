@@ -7,8 +7,8 @@
     <p class="m-0" style="width: 250px;">{{ review.content.substring(0, 71) }}...</p>
     <!-- 댓글 갯수, 좋아요 갯수 -->
     <div class="review-count mt-1">
-      <p class="m-0 me-2"><i class="fa-solid fa-comments mx-1"></i>댓글 갯수</p>
       <p class="m-0"><i class="fa-solid fa-thumbs-up mx-1"></i>{{ review.liked_users_count }}</p>
+      <p class="m-0 me-2"><i class="fa-solid fa-comments mx-1"></i>{{ review.comment_count }}</p>
     </div>
   </div>
 </template>
