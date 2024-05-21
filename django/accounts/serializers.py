@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
 from rest_framework import serializers
-
+from movies.models import Genre, Movie, Review, Comment
 
 User = get_user_model()
 
@@ -53,6 +53,74 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("username", "nickname")
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    """
+    회원 프로필 페이지 Serializer
+    """
+
+    class GenreSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Genre
+            fields = ("name",)
+
+    class MovieSerialzier(serializers.ModelSerializer):
+        class Meta:
+            model = Movie
+            fields = (
+                "title",
+                "poster_path",
+                "tmdb_id",
+            )
+
+    class ReviewSerializer(serializers.ModelSerializer):
+        class MovieImageSerializer(serializers.ModelSerializer):
+            class Meta:
+                model = Movie
+                fields = ("poster_path", "tmdb_id")
+
+        class ReviewCommentSerializer(serializers.ModelSerializer):
+            class Meta:
+                model = Comment
+                fields = ("content",)
+
+        movie = MovieImageSerializer(read_only=True)
+        comment_set = ReviewCommentSerializer(many=True, read_only=True)
+
+        class Meta:
+            model = Review
+            fields = "__all__"
+
+    class CommentSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Comment
+            fields = ("content", "created_at", "liked_users")
+
+    liked_movies = MovieSerialzier(read_only=True, many=True)
+    liked_genres = GenreSerializer(many=True, read_only=True)
+    liked_reviews = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
+    liked_comments = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
+
+    review_set = ReviewSerializer(read_only=True, many=True)
+    comment_set = CommentSerializer(read_only=True, many=True)
+
+    followers = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
+
+    class Meta:
+        model = User
+        fields = (
+            "username",
+            "nickname",
+            "followings",
+            "followers",
+            "liked_movies",
+            "liked_genres",
+            "liked_reviews",
+            "liked_comments",
+            "review_set",
+            "comment_set",
+        )
 
 
 class AuthSerializer(serializers.Serializer):

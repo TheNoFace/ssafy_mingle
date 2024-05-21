@@ -33,18 +33,31 @@ export const useUserStore = defineStore('user', () => {
     })
   }
 
-  const getProfile = function (userName) {
-    axios({
-      method: 'get',
-      url: `${AUTH_BASE_URL}/profile/${userName}/`,
-    })
-    .then((response) => {
-      // console.log(response.data)
-      userData.value = response.data
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+  const getProfile = function (userName, authenticate=False) {
+    if (authenticate) {
+      axios({
+        method: 'post',
+        url: ``,
+      })
+      .then((response) => {
+        // console.log(response.data)
+      })
+      .catch((error) => {
+        console.log((error))
+      })
+    } else {
+      axios({
+        method: 'get',
+        url: `${AUTH_BASE_URL}/profile/${userName}/`,
+      })
+      .then((response) => {
+        // console.log(response.data)
+        userData.value = response.data
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    }
   }
 
   const updateProfile = function (payload) {
