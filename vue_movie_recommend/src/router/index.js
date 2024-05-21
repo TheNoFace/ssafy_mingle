@@ -9,6 +9,7 @@ import ProfileUpdateView from '@/views/ProfileUpdateView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 import CategoryRecommendMovie from '@/component/CategoryRecommendMovie.vue'
 import CategoryMain from '@/component/CategoryMain.vue'
+import ReviewDetailView from '@/views/ReviewDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -64,6 +65,11 @@ const router = createRouter({
       name: 'SignUpView',
       component: SignUpView
     },
+    {
+      path: '/review/:review_id',
+      name : 'ReviewDetailView',
+      component : ReviewDetailView
+    }
   ]
 })
 

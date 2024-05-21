@@ -10,6 +10,8 @@ export const useMovieStore = defineStore('movie', () => {
   const MovieReviewList = ref([])
   const categoryList = ref([])
   const recommendCategoryMovieList = ref([])
+  const reviewList = ref([])
+  const reviewDetail = ref([])
   const BASE_URL = 'http://127.0.0.1:8000'
 
   const getMovieList = function (standard) {
@@ -90,6 +92,34 @@ export const useMovieStore = defineStore('movie', () => {
       })
   }
 
+  const getReviewList = function () {
+    axios({
+      method : 'get',
+      url : `${BASE_URL}/api/v1/movies/recommend/review/`
+    })
+      .then(response => {
+        console.log(response.data)
+        reviewList.value = response.data
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  const getDetailReview = function (review_id) {
+    axios({
+      method : 'get',
+      url : `${BASE_URL}/api/v1/movies/review/detail/${review_id}`
+    })
+      .then(response => {
+        console.log(response.data)
+        reviewDetail.value = response.data
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
   return { 
     popularityMovieList,
     releaseMovieList,
@@ -98,11 +128,15 @@ export const useMovieStore = defineStore('movie', () => {
     MovieReviewList,
     categoryList,
     recommendCategoryMovieList,
+    reviewList,
+    reviewDetail,
     BASE_URL,
     getMovieList,
     getDetailMovie,
     getMovieReview,
     getCategoryList,
     recommendCategory,
+    getReviewList,
+    getDetailReview,
    }
 }, { persist: true })
