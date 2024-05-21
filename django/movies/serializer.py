@@ -34,10 +34,16 @@ class MovieImageSerializer(serializers.ModelSerializer):
 
 
 class ReviewCommentSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only = True)
+    user = UserSerializer(read_only=True)
+
     class Meta:
         model = Comment
-        fields = ("content", 'user', 'liked_users', 'created_at', )
+        fields = (
+            "content",
+            "user",
+            "liked_users",
+            "created_at",
+        )
 
 
 class MovieReviewListSerializer(serializers.ModelSerializer):
@@ -67,7 +73,11 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = "__all__"
-        read_only_fields = ('user', 'movie', 'liked_users',)
+        read_only_fields = (
+            "user",
+            "movie",
+            "liked_users",
+        )
 
 
 class MovieListSerializer(serializers.ModelSerializer):
@@ -78,3 +88,14 @@ class MovieListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields = "__all__"
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = "__all__"
+        read_only_fields = (
+            "user",
+            "review",
+            "liked_users",
+        )

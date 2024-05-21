@@ -89,14 +89,20 @@ def get_review_list(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@api_view(["GET", "DELETE", "PUT"])
+@api_view(["GET", "POST", "DELETE", "PUT"])
 def review_detail(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
     if request.method == "GET":
         serializer = ReviewListSerializer(review)
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.user.is_authenticated:
-        if request.user == review.user:
+        # POST 메서드일 경우 댓글 작성, 이외 메서드는 리뷰 조작
+        if request.method == "POST":
+            serializer = CommentSerializer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save(review=review, user=request.user)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+        elif request.user == review.user:
             if request.method == "DELETE":
                 review.delete()
                 return Response(status=status.HTTP_204_NO_CONTENT)
@@ -108,5 +114,25 @@ def review_detail(request, review_pk):
                     serializer.save()
                     return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
-    return Response(status=status.HTTP_403_FORBIDDEN)
+            return Response(status=status.HTTP_403_FORBIDDEN)
+    return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(["DELETE", "PUT"])
+def comment_manage(request, comment_pk):
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    if request.user.is_authenticated:
+        if request.user == comment.user:
+            if request.method == "DELETE":
+                comment.delete()
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            elif request.method == "PUT":
+                serializer = CommentSerializer(
+                    instance=comment, data=request.data, partial=True
+                )
+                if serializer.is_valid(raise_exception=True):
+                    serializer.save()
+                    return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+    return Response(status=status.HTTP_401_UNAUTHORIZED)
