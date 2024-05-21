@@ -24,12 +24,16 @@
       />
     </div>
 
+    <!-- 댓글 작성 컴포넌트 -->
+    <CommentForm />
+
   </div>
 </template>
 
 <script setup>
 import ReviewDetail from '@/component/ReviewDetail.vue';
 import ReviewComment from '@/component/ReviewComment.vue';
+import CommentForm from '@/component/CommentForm.vue';
 import { onMounted, ref } from 'vue'
 import { useMovieStore } from '@/stores/movie';
 import { useRoute } from 'vue-router'
