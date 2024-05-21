@@ -1,4 +1,6 @@
-from django.shortcuts import render, get_list_or_404, get_object_or_404
+from django.shortcuts import get_list_or_404, get_object_or_404
+from django.apps import apps
+
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -36,7 +38,7 @@ def get_movie_list(request, standard):
             return Response(movie_list, status=status.HTTP_200_OK)
 
 
-@api_view(["GET"])
+@api_view(["GET", "POST"])
 def movie_detail(request, tmdb_id):
     if request.method == "GET":
         movie = Movie.objects.get(pk=tmdb_id)
@@ -135,4 +137,17 @@ def comment_manage(request, comment_pk):
                     return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_403_FORBIDDEN)
+    return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(["POST"])
+def like_target(request, target_model, target_pk):
+    if request.user.is_authenticated:
+        model = apps.get_model("movies", target_model.capitalize())
+        target = get_object_or_404(model, pk=target_pk)
+        if target.liked_users.filter(pk=request.user.pk).exists():
+            target.liked_users.remove(request.user)
+        else:
+            target.liked_users.add(request.user)
+        return Response(status=status.HTTP_200_OK)
     return Response(status=status.HTTP_401_UNAUTHORIZED)
