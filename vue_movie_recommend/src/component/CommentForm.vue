@@ -24,7 +24,7 @@ const createComment = function () {
     console.log(reviewId)
     axios({
       method : 'post',
-      url : `${store.BASE_URL}/api/v1/movies/review/detail/${reviewId}/comment`,
+      url : `${store.BASE_URL}/api/v1/movies/review/detail/${reviewId}/`,
       data : {
         content : commentText.value
       },

@@ -1,5 +1,5 @@
 <template>
-  <div class="review-card-border rounded p-2" style="position: relative">
+  <div class="review-card-border rounded p-2" style="position: relative" @click.prevent="goDetailReview(review.id)">
     <div class="d-flex">
       <div class="col-1">
         <img :src="`https://image.tmdb.org/t/p/original${review.movie.poster_path}`" :alt="review.movie.title" width="100%">
@@ -30,9 +30,17 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
 const props = defineProps({
   review : Object
 })
+
+const goDetailReview = function (reviewId) {
+  router.push({ name : 'ReviewDetailView', params : { review_id : reviewId }})
+}
 </script>
 
 <style scoped>

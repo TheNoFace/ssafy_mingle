@@ -1,4 +1,5 @@
 <template>
+  <div>테스트</div>
   <div v-if="userData">
     <h1>프로필 수정</h1>
     <form ref="updateForm" @submit.prevent="updateProfile">
@@ -11,10 +12,11 @@
 
 <script setup>
 import { useUserStore } from '@/stores/user'
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 
 const userStore = useUserStore()
 const userData = computed(() => {
+  console.log(userStore.userData)
   return userStore.userData
 })
 
@@ -23,6 +25,10 @@ const updateProfile = function () {
   const payload = new FormData(updateForm.value)
   userStore.updateProfile(payload)
 }
+
+onMounted(() => {
+  userStore.getProfile()
+})
 </script>
 
 <style scoped>
