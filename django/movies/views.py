@@ -5,13 +5,7 @@ from rest_framework.decorators import api_view
 
 from .models import Movie, Genre, Review, Comment
 
-from .serializer import (
-    MovieListSerializer,
-    MovieReviewListSerializer,
-    GenreNameSerializer,
-    GenreMovieListSerializer,
-    ReviewListSerializer,
-)
+from .serializer import *
 
 import random
 
@@ -50,15 +44,22 @@ def movie_detail(request, tmdb_id):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@api_view(["GET"])
+@api_view(["GET", "POST"])
 def movie_review(request, tmdb_id):
+    movie = get_object_or_404(Movie, pk=tmdb_id)
     if request.method == "GET":
-        movie = Movie.objects.get(pk=tmdb_id)
         review_list = [movie.title]
         reviews = movie.review_set.all()
         serializer = MovieReviewListSerializer(reviews, many=True)
         review_list.append(serializer.data)
         return Response(review_list, status=status.HTTP_200_OK)
+    elif request.method == "POST":
+        if request.user.is_authenticated:
+            serializer = ReviewSerializer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save(user=request.user, movie=movie)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
 @api_view(["GET"])
@@ -79,16 +80,33 @@ def get_category_movie(request, genre_pk):
         movie_list.append(serializer.data)
         return Response(movie_list, status=status.HTTP_200_OK)
 
-@api_view(['GET'])
+
+@api_view(["GET"])
 def get_review_list(request):
     if request.method == "GET":
-        reviews = Review.objects.all().order_by('-vote')[:1000]
-        serializer = ReviewListSerializer(reviews, many = True)
+        reviews = Review.objects.all().order_by("-vote")[:1000]
+        serializer = ReviewListSerializer(reviews, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-@api_view(['GET'])
+
+@api_view(["GET", "DELETE", "PUT"])
 def review_detail(request, review_pk):
+    review = get_object_or_404(Review, pk=review_pk)
     if request.method == "GET":
-        review = Review.objects.get(pk = review_pk)
         serializer = ReviewListSerializer(review)
-        return Response(serializer.data, status = status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    elif request.user.is_authenticated:
+        if request.user == review.user:
+            if request.method == "DELETE":
+                review.delete()
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            elif request.method == "PUT":
+                serializer = ReviewSerializer(
+                    instance=review, data=request.data, partial=True
+                )
+                if serializer.is_valid(raise_exception=True):
+                    serializer.save()
+                    return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+    return Response(status=status.HTTP_403_FORBIDDEN)
