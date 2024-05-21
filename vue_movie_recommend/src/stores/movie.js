@@ -6,9 +6,10 @@ export const useMovieStore = defineStore('movie', () => {
   const popularityMovieList = ref([])
   const releaseMovieList = ref([])
   const categoryMovieList = ref([])
-  const detailMovie = ref([])
+  const detailMovie = ref(null)
   const MovieReviewList = ref([])
   const categoryList = ref([])
+  const recommendCategoryMovieList = ref([])
   const BASE_URL = 'http://127.0.0.1:8000'
 
   const getMovieList = function (standard) {
@@ -17,6 +18,7 @@ export const useMovieStore = defineStore('movie', () => {
       url : `${BASE_URL}/api/v1/movies/${standard}/`,
     })
       .then(response => {
+        // console.log(response.data)
         if (standard === 'popularity') {
           popularityMovieList.value = response.data
           // console.log(popularityMovieList.value)
@@ -24,7 +26,7 @@ export const useMovieStore = defineStore('movie', () => {
           releaseMovieList.value = response.data
         } else if (standard === 'category') {
           categoryMovieList.value = response.data
-          // console.log(response.data)
+          // console.log(categoryMovieList.value)
         }
       })
       .catch(error => {
@@ -74,6 +76,20 @@ export const useMovieStore = defineStore('movie', () => {
       })
   }
 
+  const recommendCategory = function (categoryId) {
+    axios({
+      method : 'get',
+      url : `${BASE_URL}/api/v1/movies/recommend/category/${categoryId}/`,
+    })
+      .then(response => {
+        // console.log(response.data)
+        recommendCategoryMovieList.value = response.data
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
   return { 
     popularityMovieList,
     releaseMovieList,
@@ -81,10 +97,12 @@ export const useMovieStore = defineStore('movie', () => {
     detailMovie,
     MovieReviewList,
     categoryList,
+    recommendCategoryMovieList,
     BASE_URL,
     getMovieList,
     getDetailMovie,
     getMovieReview,
     getCategoryList,
+    recommendCategory,
    }
 }, { persist: true })
