@@ -10,6 +10,7 @@ from .serializer import (
     MovieReviewListSerializer,
     GenreNameSerializer,
     GenreMovieListSerializer,
+    ReviewListSerializer,
 )
 
 import random
@@ -77,3 +78,17 @@ def get_category_movie(request, genre_pk):
         serializer = MovieListSerializer(movies, many=True)
         movie_list.append(serializer.data)
         return Response(movie_list, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_review_list(request):
+    if request.method == "GET":
+        reviews = Review.objects.all().order_by('-vote')[:1000]
+        serializer = ReviewListSerializer(reviews, many = True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def review_detail(request, review_pk):
+    if request.method == "GET":
+        review = Review.objects.get(pk = review_pk)
+        serializer = ReviewListSerializer(review)
+        return Response(serializer.data, status = status.HTTP_200_OK)

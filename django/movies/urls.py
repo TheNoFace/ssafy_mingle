@@ -7,4 +7,6 @@ urlpatterns = [
     path("movies/detail/<int:tmdb_id>/review/", views.movie_review),
     path("movies/recommend/category/", views.get_category),
     path("movies/recommend/category/<int:genre_pk>/", views.get_category_movie),
+    path('movies/recommend/review/', views.get_review_list),
+    path('movies/review/detail/<int:review_pk>/', views.review_detail),
 ]

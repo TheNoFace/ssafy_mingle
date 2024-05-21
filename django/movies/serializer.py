@@ -6,7 +6,10 @@ from accounts.serializers import UserSerializer
 class GenreNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
-        fields = ("tmdb_id", "name",)
+        fields = (
+            "tmdb_id",
+            "name",
+        )
 
 
 class GenreMovieListSerializer(serializers.ModelSerializer):
@@ -15,28 +18,19 @@ class GenreMovieListSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ReviewListSerializer(serializers.ModelSerializer):
-    liked_users_count = serializers.IntegerField(
-        source="liked_users.count", read_only=True
-    )
-    user = UserSerializer(read_only=True)
-    comment_count = serializers.IntegerField(source="comment_set.count", read_only=True)
-
-    class Meta:
-        model = Review
-        fields = "__all__"
-
-
 class MovieImageSerializer(serializers.ModelSerializer):
+    genres = GenreNameSerializer(many = True, read_only = True)
+    
     class Meta:
         model = Movie
-        fields = ("poster_path",)
+        fields = ("poster_path", "tmdb_id", "title", 'vote_average', 'release_date', 'genres',)
 
 
 class ReviewCommentSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only = True)
     class Meta:
         model = Comment
-        fields = ("content",)
+        fields = ("content", 'user', 'liked_users', 'created_at', )
 
 
 class MovieReviewListSerializer(serializers.ModelSerializer):
@@ -46,6 +40,16 @@ class MovieReviewListSerializer(serializers.ModelSerializer):
     )
     comment_set = ReviewCommentSerializer(read_only=True, many=True)
     comment_count = serializers.IntegerField(source="comment_set.count", read_only=True)
+
+    class Meta:
+        model = Review
+        fields = "__all__"
+
+
+class ReviewListSerializer(serializers.ModelSerializer):
+    movie = MovieImageSerializer(read_only=True)
+    user = UserSerializer(read_only=True)
+    comment_set = ReviewCommentSerializer(read_only=True, many=True)
 
     class Meta:
         model = Review

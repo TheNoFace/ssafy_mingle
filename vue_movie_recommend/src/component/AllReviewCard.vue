@@ -17,11 +17,11 @@
     <div class="d-flex mt-2">
       <h6 class="m-0 ms-2">
         <i class="fa-solid fa-thumbs-up"></i>
-        {{ review.liked_users_count }}
+        {{ review.liked_users.length }}
       </h6>
       <h6 class="m-0 ms-2">
         <i class="fa-solid fa-comments"></i>
-        {{ review.comment_count }}
+        {{ review.comment_set.length }}
       </h6>
     </div>
   </div>

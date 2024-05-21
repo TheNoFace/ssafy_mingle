@@ -1,10 +1,13 @@
 <template>
   <div>
-    <nav>
+    <nav class="navbar">
       <div class="nav-left">
         <div>
           <RouterLink :to="{ name: 'MainView' }">
-            <i class="fa-solid fa-video p-3" style="color: #76abae; height: 30px" />
+            <i
+              class="fa-solid fa-video p-3"
+              style="color: #76abae; height: 30px"
+            />
           </RouterLink>
         </div>
         <div class="nav-standard">
@@ -17,14 +20,23 @@
         </div>
       </div>
       <div class="nav-right">
-        <button v-if="!userStore.isLogin" type="button" class="btn nav-router" @click="launchModal">
+        <button
+          v-if="!userStore.isLogin"
+          type="button"
+          class="btn nav-router"
+          @click="launchModal"
+        >
           Login
         </button>
         <LoginModal />
         <div v-if="userStore.isLogin">
-          <RouterLink :to="{ name: 'ProfileView', params: { username: username } }">
-            <i class="fa-solid fa-user p-3" style="color: #76abae; height: 30px" />
-            
+          <RouterLink
+            :to="{ name: 'ProfileView', params: { username: username } }"
+          >
+            <i
+              class="fa-solid fa-user p-3"
+              style="color: #76abae; height: 30px"
+            />
           </RouterLink>
         </div>
       </div>
@@ -37,25 +49,25 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { RouterLink } from "vue-router"
-import LoginModal from "@/component/LoginModal.vue"
-import { useUserStore } from "./stores/user"
-import { Modal } from 'bootstrap'
+import { computed } from "vue";
+import { RouterLink } from "vue-router";
+import LoginModal from "@/component/LoginModal.vue";
+import { useUserStore } from "./stores/user";
+import { Modal } from "bootstrap";
 
-const userStore = useUserStore()
+const userStore = useUserStore();
 const username = computed(() => {
   if (userStore.isLogin) {
-    return userStore.sessionData.user.username
+    return userStore.sessionData.user.username;
   }
-})
+});
 
 const launchModal = function () {
-  const logInModal = new Modal('#login', {
+  const logInModal = new Modal("#login", {
     backdrop: true,
-  })
-  logInModal.show()
-}
+  });
+  logInModal.show();
+};
 </script>
 
 <style scoped>
@@ -90,8 +102,8 @@ nav {
 }
 
 .text-color {
-  color: white
-} 
+  color: white;
+}
 
 .nav-router {
   color: white;
@@ -100,7 +112,6 @@ nav {
   padding-right: 10px;
   font-size: large;
 }
-
 
 .category-button {
   border: 2px solid #76abae;
