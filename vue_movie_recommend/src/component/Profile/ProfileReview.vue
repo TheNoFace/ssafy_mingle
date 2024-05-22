@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import AllReviewCard from "@/component/AllReviewCard.vue";
+import AllReviewCard from "@/component/Review/AllReviewCard.vue";
 import { useUserStore } from "@/stores/user";
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";

@@ -13,8 +13,8 @@
 </template>
 
 <script setup>
-import DetailMovie from "@/component/DetailMovie.vue";
-import DetailReview from "@/component/DetailMovieReview.vue";
+import DetailMovie from "@/component/MovieDetail/DetailMovie.vue";
+import DetailReview from "@/component/MovieDetail/DetailMovieReview.vue";
 import { useMovieStore } from "@/stores/movie";
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";

@@ -1,0 +1,66 @@
+<template>
+    <div class="top-detail col text-color rounded" @click.prevent="goDetail(movie.tmdb_id)">
+        <!-- 이미지 -->
+        <div class="col-2 detail-img">
+            <img :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`" :alt="movie.title" width="100%">
+        </div>
+        <div class="col-10" style="position: relative;">
+            <!-- 제목, 평점 -->
+            <div class="detail-title">
+                <h1 style="font-size: 30px;">{{ movie.title }}</h1>
+                <h3>
+                    <i class="fa-solid fa-star" style="color: yellow;"></i>
+                    {{ movie.vote_average }}
+                </h3>
+            </div>
+            <!-- 줄거리 -->
+            <div style="padding: 20px;">
+                <p>{{ movie.overview.substring(0, 440) }}...</p>
+            </div>
+            <!-- 장르 -->
+            <div style="padding: 20px;">
+                <p class="d-flex m-0 genre">장르 : 
+                    <p class="px-2 m-0" v-for="genre in movie.genres">{{ genre.name }}</p>
+                </p>
+            </div>
+        </div>  
+    </div>
+</template>
+
+<script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+defineProps({
+    movie : Object
+})
+
+const goDetail = function (tmdb_id) {
+    router.push({ name : 'DetailView', params : { tmdb_id : tmdb_id} })
+}
+</script>
+
+<style scoped>
+.top-detail {
+    display: flex;
+    border: 2px solid white;
+    margin: 10px;
+}
+
+.detail-img {
+    padding: 10px;
+}
+
+.detail-title {
+    padding: 20px; 
+    display: flex;
+    justify-content: space-between;
+}
+
+.genre {
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+}
+</style>

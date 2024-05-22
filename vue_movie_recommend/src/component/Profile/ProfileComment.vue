@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import ReviewComment from "@/component/ReviewComment.vue";
+import ReviewComment from "@/component/Review/ReviewComment.vue";
 import { useUserStore } from "@/stores/user";
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
@@ -46,4 +46,4 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped></style>@/component/Review/ReviewComment.vue

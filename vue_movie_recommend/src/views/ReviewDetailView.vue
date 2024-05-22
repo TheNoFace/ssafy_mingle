@@ -26,9 +26,9 @@
 </template>
 
 <script setup>
-import ReviewDetail from "@/component/ReviewDetail.vue";
-import ReviewComment from "@/component/ReviewComment.vue";
-import CommentForm from "@/component/CommentForm.vue";
+import ReviewDetail from "@/component/Review/ReviewDetail.vue";
+import ReviewComment from "@/component/Review/ReviewComment.vue";
+import CommentForm from "@/component/Review/CommentForm.vue";
 import { onMounted, ref } from "vue";
 import { useMovieStore } from "@/stores/movie";
 import { useRoute } from "vue-router";
