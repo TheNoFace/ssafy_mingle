@@ -46,4 +46,4 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>@/component/Review/ReviewComment.vue
+<style scoped></style>

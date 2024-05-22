@@ -1,48 +1,55 @@
 <template>
-  <div>테스트</div>
   <div v-if="userData">
-    <h1>프로필 수정</h1>
+    <h1 class="text-color">프로필 수정</h1>
     <form ref="updateForm" @submit.prevent="updateProfile">
-      <input
-        class="form-control login-form-inner"
-        type="text"
-        :placeholder="`현재 닉네임: ${userData.nickname}`"
-        name="nickname"
-      />
-      <input
-        class="form-control login-form-inner"
-        type="password"
-        placeholder="비밀번호를 입력하세요."
-        name="password"
-      />
-      <input
-        class="form-control login-form-submit"
-        type="submit"
-        value="정보 수정"
-      />
+      <input class="form-control update-form-inner my-3" type="text" :placeholder="`현재 닉네임: ${userData.nickname}`"
+        name="nickname" />
+      <input class="form-control update-form-inner my-3" type="password" placeholder="비밀번호를 입력하세요." name="password" />
+      <input class="form-control update-form-submit" type="submit" value="정보 수정" />
     </form>
   </div>
 </template>
 
 <script setup>
-import { useUserStore } from "@/stores/user";
-import { ref, computed, onMounted } from "vue";
+import { useUserStore, useUserTempStore } from "@/stores/user"
+import { ref, computed, onMounted } from "vue"
 
-const userStore = useUserStore();
+const userStore = useUserStore()
+const userTempStore = useUserTempStore()
 const userData = computed(() => {
-  console.log(userStore.userData);
-  return userStore.userData;
-});
+  return userTempStore.tempData
+})
 
-const updateForm = ref(null);
+const updateForm = ref(null)
 const updateProfile = function () {
-  const payload = new FormData(updateForm.value);
-  userStore.updateProfile(payload);
-};
+  const payload = new FormData(updateForm.value)
+  userStore.updateProfile(payload)
+}
 
 onMounted(() => {
-  userStore.getProfile();
-});
+  userTempStore.checkPermission()
+})
 </script>
 
-<style scoped></style>
+<style scoped>
+.update-form-inner {
+  background-color: #ffffff00;
+  color: white;
+}
+
+.update-form-inner::placeholder {
+  color: white;
+  /* text-align: center; */
+}
+
+.update-form-submit {
+  background-color: #76abae;
+  border: 1px #76abae solid;
+  color: black;
+}
+
+.update-form-submit:hover {
+  background-color: #ffffff00;
+  color: white;
+}
+</style>
