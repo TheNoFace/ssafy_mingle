@@ -1,5 +1,6 @@
 from django.shortcuts import get_list_or_404, get_object_or_404
 from django.apps import apps
+from django.conf import settings
 
 from rest_framework.response import Response
 from rest_framework import status
@@ -10,6 +11,12 @@ from .models import Movie, Genre, Review, Comment
 from .serializers import *
 
 import random
+import requests
+import json
+
+BASE_DIR = settings.BASE_DIR
+
+env_file = json.load(open(f"{BASE_DIR}/.env", "r"))
 
 
 # Create your views here.
@@ -151,3 +158,61 @@ def like_target(request, target_model, target_pk):
             target.liked_users.add(request.user)
         return Response(status=status.HTTP_200_OK)
     return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(["GET"])
+def search_movie(request):
+    token = env_file["TMDB_Token"]
+    query = request.GET.get("query")
+    page = 1
+    url = f"https://api.themoviedb.org/3/search/movie?query={query}&include_adult=true&language=ko-KR&page={page}"
+    headers = {
+        "accept": "application/json",
+        "Authorization": f"Bearer {token}",
+    }
+
+    try:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        if response.headers.get("Content-Type") == "application/json;charset=utf-8":
+            response = response.json()
+            if request.user.is_authenticated:
+                # 인증된 사용자의 결과값만 인스턴스 새로 생성
+                for movie in response["results"]:
+                    if not Movie.objects.filter(pk=movie["id"]).exists():
+                        created_movie = Movie.objects.create(
+                            tmdb_id=movie["id"],
+                            backdrop_path=movie["backdrop_path"],
+                            poster_path=movie["poster_path"],
+                            overview=movie["overview"],
+                            popularity=movie["popularity"],
+                            release_date=(
+                                movie["release_date"] if movie["release_date"] else None
+                            ),
+                            title=movie["title"],
+                            original_title=movie["original_title"],
+                            vote_average=movie["vote_average"],
+                            vote_count=movie["vote_count"],
+                        )
+
+                        genres = movie["genre_ids"]
+                        for genre_id in genres:
+                            genre = Genre.objects.get(pk=genre_id)
+                            created_movie.genres.add(genre)
+            return Response(response, status=status.HTTP_200_OK)
+        else:
+            err_msg = {"Unexpected content type": response.headers.get("Content-Type")}
+
+    except requests.exceptions.HTTPError as http_err:
+        err_msg = {"HTTP error occurred": f"{http_err}"}
+    except requests.exceptions.ConnectionError as conn_err:
+        err_msg = {"Connection error occurred": f"{conn_err}"}
+    except requests.exceptions.Timeout as timeout_err:
+        err_msg = {"Timeout error occurred": f"{timeout_err}"}
+    except requests.exceptions.RequestException as req_err:
+        err_msg = {"An error occurred": f"{req_err}"}
+    except ValueError as json_err:
+        err_msg = {"JSON decode error": f"{json_err}"}
+    except Exception as err:
+        err_msg = {"An unexpected error occurred": f"{err}"}
+    return Response(err_msg, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

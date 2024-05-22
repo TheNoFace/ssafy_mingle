@@ -1,5 +1,5 @@
 <template>
-  <div class="text-color">
+  <div class="text-color" v-if="review">
     <!-- 영화, 리뷰 정보 -->
     <ReviewDetail :review="review" />
 

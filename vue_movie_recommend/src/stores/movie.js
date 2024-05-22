@@ -15,6 +15,7 @@ export const useMovieStore = defineStore(
     const reviewList = ref([]);
     const reviewDetail = ref([]);
     const BASE_URL = "http://127.0.0.1:8000";
+    const searchMovieList = ref([]);
 
     const getMovieList = function (standard) {
       axios({
@@ -122,6 +123,23 @@ export const useMovieStore = defineStore(
         });
     };
 
+    const searchMovie = function (searchText) {
+      axios({
+        method: "get",
+        url: `${BASE_URL}/api/v1/movies/search/tmdb/`,
+        params: {
+          query: searchText,
+        },
+      })
+        .then((response) => {
+          console.log(response);
+          searchMovieList.value = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+
     return {
       popularityMovieList,
       releaseMovieList,
@@ -132,6 +150,7 @@ export const useMovieStore = defineStore(
       recommendCategoryMovieList,
       reviewList,
       reviewDetail,
+      searchMovieList,
       BASE_URL,
       getMovieList,
       getDetailMovie,
@@ -140,6 +159,7 @@ export const useMovieStore = defineStore(
       recommendCategory,
       getReviewList,
       getDetailReview,
+      searchMovie,
     };
   },
   { persist: true }

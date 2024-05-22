@@ -48,7 +48,7 @@ img {
   width: 100%;
   height: 100%;
   border-radius: 8px;
-  transition: all 0.1s cubic-bezier(0.42, 0.0, 0.58, 1.0);
+  transition: all 0.1s cubic-bezier(0.42, 0, 0.58, 1);
 }
 
 #box:hover {
@@ -59,8 +59,6 @@ img {
   display: block;
   width: inherit;
   height: inherit;
-  ;
   padding: 0;
-
 }
 </style>

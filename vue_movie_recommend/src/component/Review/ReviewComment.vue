@@ -1,8 +1,10 @@
 <template>
   <div>
-    <div class="comment-user">
-      <i class="fa-solid fa-user"></i>
-      <p class="m-0 ms-2">{{ comment.user.nickname }}</p>
+    <div>
+      <div class="comment-user">
+        <i class="fa-solid fa-user"></i>
+        <p class="m-0 ms-2">{{ comment.user.nickname }}</p>
+      </div>
     </div>
     <p class="m-0 my-2">{{ comment.content }}</p>
     <div class="comment-user thumbs-up">

@@ -11,4 +11,5 @@ urlpatterns = [
     path("movies/review/detail/<int:review_pk>/", views.review_detail),
     path("movies/comment/<int:comment_pk>/", views.comment_manage),
     path("movies/like/<str:target_model>/<int:target_pk>/", views.like_target),
+    path("movies/search/tmdb/", views.search_movie),
 ]
