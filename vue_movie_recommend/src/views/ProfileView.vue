@@ -24,25 +24,10 @@
       </button>
     </div>
 
-<<<<<<< cf600db15ab2d7c3a2b27da3f6b328b9a83e3590
-    <RouterLink :to="{ name: 'ProfileGenre' }" class="nav-router ps-0"
-      >Genre</RouterLink
-    >
-    <RouterLink :to="{ name: 'ProfileMovie' }" class="nav-router"
-      >Movie</RouterLink
-    >
-    <RouterLink :to="{ name: 'ProfileReview' }" class="nav-router"
-      >Review</RouterLink
-    >
-    <RouterLink :to="{ name: 'ProfileComment' }" class="nav-router"
-      >Comment</RouterLink
-    >
-=======
     <RouterLink :to="{ name: 'ProfileGenre' }" class="nav-router ps-0">Genre</RouterLink>
     <RouterLink :to="{ name: 'ProfileMovie' }" class="nav-router">Movie</RouterLink>
     <RouterLink :to="{ name: 'ProfileReview' }" class="nav-router">Review</RouterLink>
     <RouterLink :to="{ name: 'ProfileComment' }" class="nav-router">Comment</RouterLink>
->>>>>>> 4da1b9b41e0f9a896eb8ee4006112be24c7799f3
 
     <RouterView />
   </div>
@@ -64,13 +49,8 @@ const logOut = function () {
 }
 
 const logOutAll = function () {
-<<<<<<< cf600db15ab2d7c3a2b27da3f6b328b9a83e3590
-  userStore.logOutAll();
-};
-=======
   userStore.logOutAll()
 }
->>>>>>> 4da1b9b41e0f9a896eb8ee4006112be24c7799f3
 
 const getProfileDetail = function (userName) {
   axios({
