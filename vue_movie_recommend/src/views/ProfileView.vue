@@ -98,4 +98,8 @@ onMounted(() => {
   background-color: #76abae;
   color: black;
 }
+
+.nav-router:hover {
+  color: #76abae;
+}
 </style>
