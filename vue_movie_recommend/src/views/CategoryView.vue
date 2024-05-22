@@ -18,35 +18,35 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue"
-import { RouterLink, RouterView, useRouter } from "vue-router"
-import { useMovieStore } from "@/stores/movie"
+import { onMounted } from "vue";
+import { RouterLink, RouterView, useRouter } from "vue-router";
+import { useMovieStore } from "@/stores/movie";
 
-const store = useMovieStore()
-const router = useRouter()
+const store = useMovieStore();
+const router = useRouter();
 
 onMounted(() => {
-  store.getCategoryList()
+  store.getCategoryList();
 
   if (store.recommendCategoryMovieList) {
-    store.recommendCategoryMovieList = null
+    store.recommendCategoryMovieList = null;
   }
-  
+
   if (router.currentRoute.value.path.length > 10) {
-    store.recommendCategory(router.currentRoute.value.path.substring(10))
+    store.recommendCategory(router.currentRoute.value.path.substring(10));
   }
-})
+});
 </script>
 
 <style scoped>
 .category-list {
   display: flex;
-  flex-wrap: wrap
+  flex-wrap: wrap;
 }
 
 .category-btn {
   border: 1px solid #76abae;
   text-decoration: none;
-  color: white
+  color: white;
 }
 </style>

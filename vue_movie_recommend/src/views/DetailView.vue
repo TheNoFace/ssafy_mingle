@@ -13,25 +13,23 @@
 </template>
 
 <script setup>
-import DetailMovie from "@/component/DetailMovie.vue"
-import DetailReview from "@/component/DetailMovieReview.vue"
-import { useMovieStore } from "@/stores/movie"
-import { ref, onMounted } from "vue"
-import { useRoute } from "vue-router"
+import DetailMovie from "@/component/DetailMovie.vue";
+import DetailReview from "@/component/DetailMovieReview.vue";
+import { useMovieStore } from "@/stores/movie";
+import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
 
-const route = useRoute()
-const store = useMovieStore()
+const route = useRoute();
+const store = useMovieStore();
 
-const tmdbId = ref(route.params.tmdb_id)
+const tmdbId = ref(route.params.tmdb_id);
 
 onMounted(() => {
   if (store.detailMovie) {
-    store.detailMovie = null    
+    store.detailMovie = null;
   }
-  store.getDetailMovie(tmdbId.value)
-})
+  store.getDetailMovie(tmdbId.value);
+});
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

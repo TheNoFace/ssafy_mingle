@@ -3,7 +3,6 @@
     <img :src="backimageURL" alt="image" class="backdrop-image" @click="godetail(movie.tmdb_id)">
     <img :src="posterimageURL" alt="image" class="d-block poster-image m-auto" @click="godetail(movie.tmdb_id)">
     <h1 class="carousel-text m-0 nunito-text rank">{{ rank }}</h1>
-    <!-- <p class="carousel-content">{{ movie.title }}</p> -->
   </div>
 </template>
 
