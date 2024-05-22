@@ -7,10 +7,9 @@ import DetailView from "@/views/DetailView.vue";
 import MovieReviewView from "@/views/MovieReviewView.vue";
 import ProfileUpdateView from "@/views/ProfileUpdateView.vue";
 import SignUpView from "@/views/SignUpView.vue";
-import CategoryRecommendMovie from "@/component/CategoryRecommendMovie.vue";
-import CategoryMain from "@/component/CategoryMain.vue";
+import CategoryRecommendMovie from "@/component/Category/CategoryRecommendMovie.vue";
+import CategoryMain from "@/component/Category/CategoryMain.vue";
 import ReviewDetailView from "@/views/ReviewDetailView.vue";
-import CommentView from "@/views/CommentView.vue";
 import ProfileGenre from "@/component/Profile/ProfileGenre.vue";
 import ProfileMovie from "@/component/Profile/ProfileMovie.vue";
 import ProfileReview from "@/component/Profile/ProfileReview.vue";
@@ -96,11 +95,6 @@ const router = createRouter({
       path: "/review/:review_id",
       name: "ReviewDetailView",
       component: ReviewDetailView,
-    },
-    {
-      path: "/comment",
-      name: "CommentView.vue",
-      component: CommentView,
     },
   ],
 });

@@ -9,7 +9,7 @@
 <script setup>
 import { onMounted } from "vue";
 import { useMovieStore } from "@/stores/movie";
-import AllReviewCard from "@/component/AllReviewCard.vue";
+import AllReviewCard from "@/component/Review/AllReviewCard.vue";
 
 const store = useMovieStore();
 

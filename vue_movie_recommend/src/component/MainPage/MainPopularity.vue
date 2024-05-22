@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-import MainPopularityCard from "@/component/MainPopularityCard.vue";
+import MainPopularityCard from "@/component/MainPage/MainPopularityCard.vue";
 import { useMovieStore } from "@/stores/movie";
 import { ref, onMounted } from "vue";
 

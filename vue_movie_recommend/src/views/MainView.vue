@@ -14,10 +14,10 @@
 </template>
 
 <script setup>
-import Search from "@/component/Search.vue";
-import MainPopularity from "@/component/MainPopularity.vue";
-import MainReleased from "@/component/MainReleased.vue";
-import MainCategoryMovie from "@/component/MainCategoryMovie.vue";
+import Search from "@/component/Search/Search.vue";
+import MainPopularity from "@/component/MainPage/MainPopularity.vue";
+import MainReleased from "@/component/MainPage/MainReleased.vue";
+import MainCategoryMovie from "@/component/MainPage/MainCategoryMovie.vue";
 </script>
 
 <style scoped>

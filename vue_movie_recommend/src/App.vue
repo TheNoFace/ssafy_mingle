@@ -51,7 +51,7 @@
 <script setup>
 import { computed } from "vue";
 import { RouterLink } from "vue-router";
-import LoginModal from "@/component/LoginModal.vue";
+import LoginModal from "@/component/User/LoginModal.vue";
 import { useUserStore } from "./stores/user";
 import { Modal } from "bootstrap";
 

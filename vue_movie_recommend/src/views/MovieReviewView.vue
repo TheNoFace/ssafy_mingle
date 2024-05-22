@@ -15,7 +15,7 @@
 import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useMovieStore } from "@/stores/movie";
-import AllReviewCard from "@/component/AllReviewCard.vue";
+import AllReviewCard from "@/component/Review/AllReviewCard.vue";
 
 const store = useMovieStore();
 const route = useRoute();
