@@ -93,9 +93,16 @@ class UserDetailSerializer(serializers.ModelSerializer):
             fields = "__all__"
 
     class CommentSerializer(serializers.ModelSerializer):
+        user = UserSerializer(read_only=True)
+
         class Meta:
             model = Comment
-            fields = ("content", "created_at", "liked_users")
+            fields = (
+                "content",
+                "created_at",
+                "liked_users",
+                "user",
+            )
 
     liked_movies = MovieSerialzier(read_only=True, many=True)
     liked_genres = GenreSerializer(many=True, read_only=True)
