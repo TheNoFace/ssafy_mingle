@@ -3,6 +3,7 @@
   <div
     class="scroll"
     style="background-color: #ffffff00; color: white; height: 100%"
+    id="box"
   >
     <img
       :src="imageURL"
@@ -37,5 +38,29 @@ const godetail = function (tmdb_id) {
 <style scoped>
 .scroll {
   display: inline-block;
+}
+
+img {
+  border-radius: 20px;
+}
+
+#box {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  transition: all 0.1s cubic-bezier(0.42, 0.0, 0.58, 1.0);
+}
+
+#box:hover {
+  transform: translateY(-10px);
+}
+
+#box .img {
+  display: block;
+  width: inherit;
+  height: inherit;
+  ;
+  padding: 0;
+
 }
 </style>

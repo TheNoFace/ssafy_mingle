@@ -93,4 +93,9 @@ onMounted(() => {
   border: 2px #76abae solid;
   margin: 10px;
 }
+
+.profile-button:hover {
+  background-color: #76abae;
+  color: black;
+}
 </style>

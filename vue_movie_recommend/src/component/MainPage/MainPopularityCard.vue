@@ -1,21 +1,31 @@
 <template>
-  <div class="carousel-item carousel-image" :class="{ active : isActive }">
-    <img :src="backimageURL" alt="image" class="backdrop-image" @click="godetail(movie.tmdb_id)">
-    <img :src="posterimageURL" alt="image" class="d-block poster-image m-auto" @click="godetail(movie.tmdb_id)">
+  <div class="carousel-item carousel-image" :class="{ active: isActive }">
+    <img
+      :src="backimageURL"
+      alt="image"
+      class="backdrop-image"
+      @click="godetail(movie.tmdb_id)"
+    />
+    <img
+      :src="posterimageURL"
+      alt="image"
+      class="d-block poster-image m-auto"
+      @click="godetail(movie.tmdb_id)"
+    />
     <h1 class="carousel-text m-0 nunito-text rank">{{ rank }}</h1>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import { useRouter } from 'vue-router'
+import { useRouter } from "vue-router";
 
-const router = useRouter()
+const router = useRouter();
 
 const props = defineProps({
   isActive: Boolean,
   movie: Object,
-  rank : Number
+  rank: Number,
 });
 
 const backimageURL = ref(
@@ -27,12 +37,12 @@ const posterimageURL = ref(
 );
 
 const godetail = function (tmdb_id) {
-    router.push({ name : 'DetailView', params : { tmdb_id : tmdb_id} })
-}
+  router.push({ name: "DetailView", params: { tmdb_id: tmdb_id } });
+};
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 
 .nunito-text {
   color: white;
@@ -47,10 +57,10 @@ const godetail = function (tmdb_id) {
 }
 
 .carousel-text {
-  background-color: #ffffff00
+  background-color: #ffffff00;
 }
 
-.carousel-content{
+.carousel-content {
   background-color: #ffffff00;
   font-family: "Nunito", sans-serif;
   font-optical-sizing: auto;
@@ -69,7 +79,7 @@ const godetail = function (tmdb_id) {
   left: 0;
   top: 0;
   height: 100%;
-  filter : brightness(30%)
+  filter: brightness(30%);
 }
 
 .poster-image {
