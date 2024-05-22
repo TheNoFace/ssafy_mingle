@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view
 
 from .models import Movie, Genre, Review, Comment
 
-from .serializer import *
+from .serializers import *
 
 import random
 
