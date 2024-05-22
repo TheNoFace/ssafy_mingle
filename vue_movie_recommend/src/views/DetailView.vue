@@ -4,7 +4,7 @@
       <DetailMovie :movie="store.detailMovie" />
     </div>
     <div class="container mt-5">
-      <DetailReview :reviews="store.detailMovie.review_set" />
+      <DetailMovieReview :reviews="store.detailMovie.review_set" />
     </div>
   </div>
   <div v-else>
@@ -14,7 +14,7 @@
 
 <script setup>
 import DetailMovie from "@/component/MovieDetail/DetailMovie.vue";
-import DetailReview from "@/component/MovieDetail/DetailMovieReview.vue";
+import DetailMovieReview from "@/component/MovieDetail/DetailMovieReview.vue";
 import { useMovieStore } from "@/stores/movie";
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";

@@ -7,7 +7,7 @@
         style="width: 100%"
       />
     </div>
-    <div class="m-4" style="position: relative">
+    <div class="m-4 col-9" style="position: relative">
       <div>
         <div class="d-flex justify-content-between">
           <div class="info">
@@ -16,10 +16,6 @@
               style="color: #76abae; height: 45px"
             ></i>
             <h4 class="m-0 mx-3">{{ review.user.nickname }}</h4>
-          </div>
-          <div class="info">
-            <i class="fa-solid fa-star" style="color: yellow; height: 25px"></i>
-            <h4 class="m-0 mx-2">{{ review.vote }}</h4>
           </div>
         </div>
         <h1 class="m-0 my-4">{{ review.title }}</h1>
@@ -37,6 +33,10 @@
             {{ genreName.name }}
           </p>
         </div>
+      </div>
+      <div class="vote-info">
+        <i class="fa-solid fa-star" style="color: yellow; height: 25px"></i>
+        <h4 class="m-0 mx-2">{{ review.vote }}</h4>
       </div>
     </div>
   </div>
@@ -62,5 +62,13 @@ defineProps({
   position: absolute;
   left: 0;
   bottom: 0;
+}
+
+.vote-info {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 </style>
