@@ -1,7 +1,7 @@
 <template>
   <div class="text-color category-list">
     <RouterLink
-      class="category-btn rounded m-0 px-3 py-1 m-2"
+      class="category-button rounded m-0 px-3 py-1 m-2 category"
       v-for="category in store.categoryList"
       @click="store.recommendCategory(category.tmdb_id)"
       :key="category.name"
@@ -44,9 +44,13 @@ onMounted(() => {
   flex-wrap: wrap;
 }
 
-.category-btn {
-  border: 1px solid #76abae;
-  text-decoration: none;
+.category {
   color: white;
+  text-decoration: none;
+}
+
+.category-button:hover {
+  background-color: #76abae;
+  color: black;
 }
 </style>

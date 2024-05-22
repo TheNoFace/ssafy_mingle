@@ -43,4 +43,9 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.category-button:hover {
+  background-color: #76abae;
+  color: black;
+}
+</style>

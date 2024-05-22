@@ -23,7 +23,7 @@
         <button
           v-if="!userStore.isLogin"
           type="button"
-          class="btn nav-router"
+          class="btn nav-router login me-3"
           @click="launchModal"
         >
           Login
@@ -92,6 +92,10 @@ nav {
   display: flex;
   align-items: center;
 }
+
+.nav-router:hover {
+  color: #76abae;
+}
 </style>
 
 <style>
@@ -118,5 +122,15 @@ nav {
   margin: 0;
   margin: 0 10px 10px 10px;
   padding: 0 10px 0 10px;
+}
+
+::-webkit-scrollbar {
+  background-color: #ffffff00;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #76abae;
+  border-radius: 10px;
 }
 </style>

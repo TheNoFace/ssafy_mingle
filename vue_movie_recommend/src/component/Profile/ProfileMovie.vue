@@ -1,23 +1,13 @@
 <template>
-  <!-- 아직 안함: 이미지 선택 시 영화 상세 페이지 이동 -->
   <div v-if="userData" class="mt-5">
     <div>
       <h4 class="m-0">좋아하는 영화 {{ userData.liked_movies.length }}개</h4>
     </div>
-    <div class="d-flex flex-wrap">
-      <div
-        v-for="movie in userData.liked_movies"
-        :key="movie.tmdb_id"
-        :movie="movie"
-      >
-        <div>
-          <img
-            :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`"
-            :alt="movie.title"
-            width="190px;"
-            style="margin: 10px"
-            @click="godetail(movie.tmdb_id)"
-          />
+    <div class="d-flex flex-wrap mt-3">
+      <div v-for="movie in userData.liked_movies" :key="movie.tmdb_id" :movie="movie">
+        <div id="box">
+          <img :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`" :alt="movie.title" width="190px;"
+            style="margin: 10px" @click="godetail(movie.tmdb_id)" />
         </div>
       </div>
     </div>
@@ -58,4 +48,29 @@ const godetail = function (tmdb_id) {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+img {
+  border-radius: 20px;
+}
+
+#box {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.1s cubic-bezier(0.42, 0.0, 0.58, 1.0);
+}
+
+#box:hover {
+  transform: translateY(-10px);
+}
+
+#box .img {
+  display: block;
+  width: inherit;
+  height: inherit;
+  ;
+  padding: 0;
+
+}
+</style>
