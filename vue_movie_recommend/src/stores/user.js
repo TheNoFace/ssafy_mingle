@@ -24,9 +24,19 @@ export const useUserStore = defineStore("user", () => {
       data: payload,
     })
       .then((response) => {
-        // console.log(response.data)
         payload.delete("nickname");
-        userLogIn(payload);
+        axios({
+          method: "post",
+          url: `${AUTH_BASE_URL}/login/`,
+          data: payload,
+        })
+          .then((response) => {
+            sessionData.value = response.data
+            router.push({ name: "MainView" })
+          })
+          .catch((error) => {
+            console.log(error)
+          })
       })
       .catch((error) => {
         console.log(error);
@@ -126,7 +136,7 @@ export const useUserTempStore = defineStore("userTemp", () => {
   const hasPermission = ref(false)
   const tempData = ref(null)
 
-  const checkPermission = function (username=null) {
+  const checkPermission = function (username = null) {
     if (username) {
       axios({
         method: 'post',
@@ -135,12 +145,12 @@ export const useUserTempStore = defineStore("userTemp", () => {
           'Authorization': `Token ${userStore.sessionData.token}`
         }
       })
-      .then(() => {
-        hasPermission.value = true
-      })
-      .catch((error) => {
-        console.log((error.response.status))
-      })
+        .then(() => {
+          hasPermission.value = true
+        })
+        .catch((error) => {
+          console.log((error.response.status))
+        })
     } else {
       axios({
         method: 'get',
@@ -149,12 +159,12 @@ export const useUserTempStore = defineStore("userTemp", () => {
           'Authorization': `Token ${userStore.sessionData.token}`
         }
       })
-      .then((response) => {
-        tempData.value = response.data
-      })
-      .catch((error) => {
-        console.log((error.response.status))
-      })
+        .then((response) => {
+          tempData.value = response.data
+        })
+        .catch((error) => {
+          console.log((error.response.status))
+        })
     }
   }
 
