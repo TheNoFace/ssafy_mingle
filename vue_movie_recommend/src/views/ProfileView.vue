@@ -10,7 +10,7 @@
       {{ userData.followers.length }}
     </p>
 
-    <div class="d-flex">
+    <div class="d-flex" v-if="userTempStore.hasPermission">
       <RouterLink :to="{ name: 'ProfileUpdateView' }" class="profile-change">
         <p class="profile-button rounded ms-0" style="width: 100px">
           프로필 수정
@@ -24,47 +24,33 @@
       </button>
     </div>
 
-    <RouterLink
-      @click="func"
-      :to="{ name: 'ProfileGenre' }"
-      class="nav-router ps-0"
-      >Genre</RouterLink
-    >
-    <RouterLink :to="{ name: 'ProfileMovie' }" class="nav-router"
-      >Movie</RouterLink
-    >
-    <RouterLink :to="{ name: 'ProfileReview' }" class="nav-router"
-      >Review</RouterLink
-    >
-    <RouterLink :to="{ name: 'ProfileComment' }" class="nav-router"
-      >Comment</RouterLink
-    >
+    <RouterLink :to="{ name: 'ProfileGenre' }" class="nav-router ps-0">Genre</RouterLink>
+    <RouterLink :to="{ name: 'ProfileMovie' }" class="nav-router">Movie</RouterLink>
+    <RouterLink :to="{ name: 'ProfileReview' }" class="nav-router">Review</RouterLink>
+    <RouterLink :to="{ name: 'ProfileComment' }" class="nav-router">Comment</RouterLink>
 
     <RouterView />
   </div>
 </template>
 
 <script setup>
-import { useUserStore } from "@/stores/user";
-import { ref, onMounted } from "vue";
-import { useRoute, RouterLink, RouterView } from "vue-router";
-import axios from "axios";
+import { useUserStore, useUserTempStore } from "@/stores/user"
+import { ref, onMounted } from "vue"
+import { useRoute, RouterLink, RouterView } from "vue-router"
+import axios from "axios"
 
-const route = useRoute();
-const userStore = useUserStore();
-const userData = ref(null);
+const route = useRoute()
+const userStore = useUserStore()
+const userTempStore = useUserTempStore()
+const userData = ref(null)
 
 const logOut = function () {
-  userStore.logOut();
-};
+  userStore.logOut()
+}
 
 const logOutAll = function () {
-  userStore.logOutAll();
-};
-
-const func = function () {
-  console.log(userData.value);
-};
+  userStore.logOutAll()
+}
 
 const getProfileDetail = function (userName) {
   axios({
@@ -72,17 +58,17 @@ const getProfileDetail = function (userName) {
     url: `${userStore.AUTH_BASE_URL}/profile/${userName}/detail/`,
   })
     .then((response) => {
-      console.log(response.data);
-      userData.value = response.data;
+      userData.value = response.data
     })
     .catch((error) => {
-      console.log(error);
-    });
-};
+      console.log(error)
+    })
+}
 
 onMounted(() => {
-  getProfileDetail(route.params.username);
-});
+  userTempStore.checkPermission(route.params.username)
+  getProfileDetail(route.params.username)
+})
 </script>
 
 <style scoped>
@@ -92,6 +78,7 @@ onMounted(() => {
   margin: 0 10px 10px 10px;
   padding: 0 10px 0 10px;
 }
+
 .profile-change {
   color: white;
   text-decoration: none;
