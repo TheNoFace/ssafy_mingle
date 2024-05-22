@@ -14,6 +14,7 @@ import ProfileGenre from "@/component/Profile/ProfileGenre.vue";
 import ProfileMovie from "@/component/Profile/ProfileMovie.vue";
 import ProfileReview from "@/component/Profile/ProfileReview.vue";
 import ProfileComment from "@/component/Profile/ProfileComment.vue";
+import ReviewFormView from "@/views/ReviewFormView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -96,6 +97,11 @@ const router = createRouter({
       name: "ReviewDetailView",
       component: ReviewDetailView,
     },
+    {
+      path: '/:tmdb_id/review',
+      name : "ReviewFormView",
+      component : ReviewFormView
+    }
   ],
 });
 
