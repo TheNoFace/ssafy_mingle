@@ -1,5 +1,5 @@
 <template>
-  <div class="top-detail col text-color rounded" @click.prevent="goDetail(movie.id)">
+  <div class="top-detail col text-color rounded" @click.prevent="goDetail(movieData.tmdb_id)">
     <!-- 이미지 -->
     <div class="col-2 detail-img">
       <img :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`" :alt="`등록된 포스터가 없습니다.`" width="100%">
@@ -39,8 +39,8 @@ const props = defineProps({
   movie: Object
 })
 
-const goDetail = function (movie_id) {
-  router.push({ name: 'DetailView', params: { tmdb_id: movie_id } })
+const goDetail = function (movieId) {
+  router.push({ name: 'DetailView', params: { tmdb_id: movieId } })
 }
 
 onMounted(() => {

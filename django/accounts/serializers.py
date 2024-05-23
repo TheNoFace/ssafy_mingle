@@ -52,7 +52,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("username", "nickname")
+        fields = ("id", "username", "nickname")
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
@@ -85,6 +85,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
                 model = Comment
                 fields = ("content",)
 
+        user = UserSerializer(read_only = True)
         movie = MovieImageSerializer(read_only=True)
         comment_set = ReviewCommentSerializer(many=True, read_only=True)
 

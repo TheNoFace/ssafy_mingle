@@ -17,7 +17,7 @@
       </div>
     </div>
     <p class="m-0 my-2">{{ comment.content }}</p>
-    <div class="comment-user thumbs-up">
+    <div class="comment-user thumbs-up" @click.prevent="likeComment(comment.id)">
       <i class="fa-solid fa-thumbs-up"></i>
       <p class="m-0 ms-2">{{ comment.liked_users.length }}</p>
     </div>
@@ -89,6 +89,22 @@ const updateComment = function (commentId) {
   store.updateComment(payload, commentId, reviewId)
 }
 
+const likeComment = function (commentId) {
+  axios({
+    method : 'post',
+    url : `${store.BASE_URL}/api/v1/movies/like/comment/${commentId}/`,
+    headers: {
+      Authorization: `Token ${userStore.sessionData.token}`,
+    },
+  })
+    .then(response => {
+      console.log(response.data)
+      router.go()
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
 </script>
 
 <style scoped>

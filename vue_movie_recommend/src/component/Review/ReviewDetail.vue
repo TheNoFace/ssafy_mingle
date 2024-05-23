@@ -1,6 +1,6 @@
 <template>
   <div class="review-detail-top">
-    <div class="col-3">
+    <div class="col-3" @click="goDetailMovie(review.movie.tmdb_id)">
       <img
         :src="`https://image.tmdb.org/t/p/original${review.movie.poster_path}`"
         :alt="review.movie.title"
@@ -10,7 +10,7 @@
     <div class="m-4 col-9" style="position: relative">
       <div>
         <div class="d-flex justify-content-between">
-          <div class="info">
+          <div class="info" @click="goProfile(review.user.username)">
             <i
               class="fa-regular fa-face-smile"
               style="color: #76abae; height: 45px"
@@ -23,7 +23,9 @@
       </div>
       <div class="movie-info">
         <p class="m-0 my-1">개봉 연도 : {{ review.movie.release_date }}</p>
-        <p class="m-0 my-1">영화 평점 : {{ (review.movie.vote_average/2).toFixed(1) }}</p>
+        <p class="m-0 my-1">
+          영화 평점 : {{ (review.movie.vote_average / 2).toFixed(1) }}
+        </p>
         <div class="d-flex my-1">
           <p
             v-for="genreName in review.movie.genres"
@@ -43,9 +45,21 @@
 </template>
 
 <script setup>
+import { useRouter } from "vue-router";
+
 defineProps({
   review: Object,
 });
+
+const router = useRouter();
+
+const goProfile = function (username) {
+  router.push({ name: "ProfileView", params: { username: username } });
+};
+
+const goDetailMovie = function (movieId) {
+  router.push({ name: "DetailView", params: { tmdb_id: movieId } });
+};
 </script>
 
 <style scoped>
