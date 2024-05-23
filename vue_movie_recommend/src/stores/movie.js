@@ -132,7 +132,7 @@ export const useMovieStore = defineStore(
         },
       })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           searchMovieList.value = response.data;
         })
         .catch((error) => {

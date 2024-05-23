@@ -150,7 +150,7 @@ export const useUserTempStore = defineStore("userTemp", () => {
             hasPermission.value = true
           })
           .catch((error) => {
-            console.log((error.response.status))
+            // console.log((error.response.status))
           })
       } else {
         axios({
@@ -164,7 +164,7 @@ export const useUserTempStore = defineStore("userTemp", () => {
             tempData.value = response.data
           })
           .catch((error) => {
-            console.log((error.response.status))
+            // console.log((error.response.status))
           })
       }
     }
