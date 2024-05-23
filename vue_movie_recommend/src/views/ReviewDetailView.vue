@@ -26,28 +26,44 @@
 </template>
 
 <script setup>
-import ReviewDetail from "@/component/Review/ReviewDetail.vue";
-import ReviewComment from "@/component/Review/ReviewComment.vue";
-import CommentForm from "@/component/Review/CommentForm.vue";
-import { onMounted, computed } from "vue";
-import { useMovieStore } from "@/stores/movie";
-import { useUserStore } from "@/stores/user";
-import { useRoute, useRouter } from "vue-router";
+import ReviewDetail from "@/component/Review/ReviewDetail.vue"
+import ReviewComment from "@/component/Review/ReviewComment.vue"
+import CommentForm from "@/component/Review/CommentForm.vue"
+import { onMounted, computed, ref } from "vue"
+import { useMovieStore } from "@/stores/movie"
+import { useUserStore } from "@/stores/user"
+import { useRoute, useRouter } from "vue-router"
 import axios from 'axios'
 
-const route = useRoute();
+const route = useRoute()
 const router = useRouter()
-const store = useMovieStore();
+const store = useMovieStore()
 const userStore = useUserStore()
 
-const reviewId = route.params.review_id;
-
-onMounted(() => {
-  store.getDetailReview(reviewId);
-});
+const reviewId = route.params.review_id
+const reviewDetail = ref(null)
 
 const review = computed(() => {
-  return store.reviewDetail
+  return reviewDetail.value
+})
+
+const getDetailReview = function (review_id) {
+  axios({
+    method: "get",
+    url: `${store.BASE_URL}/api/v1/movies/review/detail/${review_id}`,
+  })
+    .then((response) => {
+      // console.log(response.data);
+      reviewDetail.value = response.data
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+
+onMounted(() => {
+  // console.log(review.value)
+  getDetailReview(reviewId)
 })
 
 const likeReview = function (reviewId) {
