@@ -17,7 +17,7 @@
 
     <!-- 댓글 전체 -->
     <div v-for="comment in review.comment_set">
-      <ReviewComment :comment="comment" />
+      <ReviewComment :comment="comment"/>
     </div>
 
     <!-- 댓글 작성 컴포넌트 -->
@@ -29,7 +29,7 @@
 import ReviewDetail from "@/component/Review/ReviewDetail.vue";
 import ReviewComment from "@/component/Review/ReviewComment.vue";
 import CommentForm from "@/component/Review/CommentForm.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, computed } from "vue";
 import { useMovieStore } from "@/stores/movie";
 import { useRoute } from "vue-router";
 
@@ -42,7 +42,9 @@ onMounted(() => {
   store.getDetailReview(reviewId);
 });
 
-const review = ref(store.reviewDetail);
+const review = computed(() => {
+  return store.reviewDetail
+})
 </script>
 
 <style scoped></style>

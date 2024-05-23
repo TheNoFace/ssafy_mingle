@@ -3,7 +3,7 @@
     <form @submit.prevent="createComment" class="d-flex mb-5">
       <input
         type="text"
-        v-model.trim="commentText"
+        v-model.trim="content"
         class="form-control comment-input"
         placeholder="댓글을 입력하세요."
       />
@@ -18,14 +18,17 @@
 
 <script setup>
 import { ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 import { useMovieStore } from "@/stores/movie";
+import { useUserStore } from "@/stores/user";
 
 const store = useMovieStore();
+const userStore = useUserStore();
 const route = useRoute();
+const router = useRouter()
 
-const commentText = ref(null);
+const content = ref(null);
 const reviewId = route.params.review_id;
 
 const createComment = function () {
@@ -34,11 +37,15 @@ const createComment = function () {
     method: "post",
     url: `${store.BASE_URL}/api/v1/movies/review/detail/${reviewId}/`,
     data: {
-      content: commentText.value,
+      content: content.value,
+    },
+    headers: {
+      Authorization: `Token ${userStore.sessionData.token}`,
     },
   })
     .then((response) => {
       console.log(response);
+      router.go()
     })
     .catch((error) => {
       console.log(error);

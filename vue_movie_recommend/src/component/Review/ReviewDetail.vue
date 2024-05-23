@@ -23,7 +23,7 @@
       </div>
       <div class="movie-info">
         <p class="m-0 my-1">개봉 연도 : {{ review.movie.release_date }}</p>
-        <p class="m-0 my-1">영화 평점 : {{ review.movie.vote_average }}</p>
+        <p class="m-0 my-1">영화 평점 : {{ (review.movie.vote_average/2).toFixed(1) }}</p>
         <div class="d-flex my-1">
           <p
             v-for="genreName in review.movie.genres"
