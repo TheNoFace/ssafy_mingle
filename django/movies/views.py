@@ -93,7 +93,7 @@ def get_category_movie(request, genre_pk):
 @api_view(["GET"])
 def get_review_list(request):
     if request.method == "GET":
-        reviews = Review.objects.all().order_by("-vote")[:1000]
+        reviews = Review.objects.all().order_by("-vote")[:100]
         serializer = ReviewListSerializer(reviews, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
