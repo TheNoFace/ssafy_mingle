@@ -1,18 +1,36 @@
-import { createApp } from "vue";
-import { createPinia } from "pinia";
-import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
-import "bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "@fortawesome/fontawesome-free/js/all.js";
+import { createApp } from "vue"
 
-import App from "./App.vue";
-import router from "./router";
+// pinia
+import { createPinia } from "pinia"
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate"
 
-const pinia = createPinia();
-const app = createApp(App);
+// bootstrap
+import "bootstrap"
+import "bootstrap/dist/css/bootstrap.min.css"
 
-pinia.use(piniaPluginPersistedstate);
-app.use(router);
-app.use(pinia);
+// fontawesome
+import "@fortawesome/fontawesome-free/js/all.js"
 
-app.mount("#app");
+// Vuetify
+import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+
+// components
+import App from "./App.vue"
+import router from "./router"
+
+const app = createApp(App)
+const pinia = createPinia()
+const vuetify = createVuetify({
+  components,
+  directives,
+})
+
+pinia.use(piniaPluginPersistedstate)
+app
+  .use(router)
+  .use(pinia)
+  .use(vuetify)
+  .mount("#app")

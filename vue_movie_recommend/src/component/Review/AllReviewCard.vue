@@ -57,7 +57,6 @@ const props = defineProps({
 });
 
 const goDetailReview = function (reviewId) {
-  console.log(update.value)
   if (update.value === false) {
     router.push({ name: "ReviewDetailView", params: { review_id: reviewId } })
   }

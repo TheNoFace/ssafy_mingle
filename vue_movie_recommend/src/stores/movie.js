@@ -99,10 +99,13 @@ export const useMovieStore = defineStore(
         });
     };
 
-    const getReviewList = function () {
+    const getReviewList = function (page) {
       axios({
         method: "get",
         url: `${BASE_URL}/api/v1/movies/recommend/review/`,
+        params: {
+          'page': page
+        }
       })
         .then((response) => {
           console.log(response.data);

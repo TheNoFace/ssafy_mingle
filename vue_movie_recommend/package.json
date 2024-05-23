@@ -16,7 +16,8 @@
     "pinia-plugin-persistedstate": "^3.2.1",
     "vue": "^3.4.21",
     "vue-debounce": "^5.0.0",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "vuetify": "^3.6.7"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
