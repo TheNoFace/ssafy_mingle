@@ -1,5 +1,5 @@
 <template>
-  <div class="carousel-item carousel-image" :class="{ active: isActive }">
+  <div class="carousel-item carousel-image" :class="{ active: isActive }" data-bs-interval="3000">
     <img
       :src="backimageURL"
       alt="image"
