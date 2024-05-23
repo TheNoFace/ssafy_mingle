@@ -176,29 +176,33 @@ def search_movie(request):
         response.raise_for_status()
         if response.headers.get("Content-Type") == "application/json;charset=utf-8":
             response = response.json()
-            if request.user.is_authenticated:
-                # 인증된 사용자의 결과값만 인스턴스 새로 생성
-                for movie in response["results"]:
-                    if not Movie.objects.filter(pk=movie["id"]).exists():
-                        created_movie = Movie.objects.create(
-                            tmdb_id=movie["id"],
-                            backdrop_path=movie["backdrop_path"],
-                            poster_path=movie["poster_path"],
-                            overview=movie["overview"],
-                            popularity=movie["popularity"],
-                            release_date=(
-                                movie["release_date"] if movie["release_date"] else None
-                            ),
-                            title=movie["title"],
-                            original_title=movie["original_title"],
-                            vote_average=movie["vote_average"],
-                            vote_count=movie["vote_count"],
-                        )
+            # count = 0
+            for movie in response["results"]:
+                if not Movie.objects.filter(pk=movie["id"]).exists():
+                    created_movie = Movie.objects.create(
+                        tmdb_id=movie["id"],
+                        backdrop_path=movie["backdrop_path"],
+                        poster_path=movie["poster_path"],
+                        overview=movie["overview"],
+                        popularity=movie["popularity"],
+                        release_date=(
+                            movie["release_date"] if movie["release_date"] else None
+                        ),
+                        title=movie["title"],
+                        original_title=movie["original_title"],
+                        vote_average=movie["vote_average"],
+                        vote_count=movie["vote_count"],
+                    )
 
-                        genres = movie["genre_ids"]
-                        for genre_id in genres:
-                            genre = Genre.objects.get(pk=genre_id)
-                            created_movie.genres.add(genre)
+                    genres = movie["genre_ids"]
+                    for genre_id in genres:
+                        genre = Genre.objects.get(pk=genre_id)
+                        created_movie.genres.add(genre)
+                    # print(f"Added movie {movie['id']}")
+                    # count += 1
+                # else:
+                    # print(f"Skipped adding movie {movie['id']}")
+            # print(f'Added total {count} movie(s)')
             return Response(response, status=status.HTTP_200_OK)
         else:
             err_msg = {"Unexpected content type": response.headers.get("Content-Type")}

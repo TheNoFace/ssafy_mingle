@@ -29,47 +29,21 @@
         </div>
       </div>
     </nav>
-
     <div class="container">
-      <!-- searchBox -->
-      <div class="search-box">
-        <div class="input-group mb-3">
-          <label class="input-group-text inputBox" for="searchBox">
-            <i class="fa-solid fa-magnifying-glass" style="color: white"></i>
-          </label>
-          <input type="text" class="form-control inputBox" id="searchBox" :value="searchText"
-            @input="(event) => (searchText = event.target.value)" v-debounce:500ms="search" />
-        </div>
-      </div>
-
-      <!-- 메인 추천 페이지 -->
-      <div v-if="!searchText">
-        <RouterView />
-      </div>
-
-      <div v-else>
-        <p class="text-color">총 {{ store.searchMovieList.total_results }}개의 검색 결과가 있습니다.</p>
-        <SearchMovie :movies="store.searchMovieList.results" />
-      </div>
+      <RouterView />
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue"
+import { computed, onMounted } from "vue"
 import { RouterLink } from "vue-router"
 import { useUserStore, useUserTempStore } from "./stores/user"
-import { useMovieStore } from "@/stores/movie"
 import { Modal } from "bootstrap"
 import LoginModal from "@/component/User/LoginModal.vue"
-import SearchMovie from "@/component/Search/SearchMovie.vue"
-import vueDebounce from 'vue-debounce'
 
-const vDebounce = vueDebounce({ lock: true })
 const userStore = useUserStore()
 const userTempStore = useUserTempStore()
-const store = useMovieStore()
-const searchText = ref(null)
 
 const username = computed(() => {
   if (userStore.isLogin) {
@@ -87,11 +61,6 @@ const launchModal = function () {
 onMounted(() => {
   userTempStore.checkPermission()
 })
-
-const search = function () {
-  // console.log(searchText.value)
-  store.searchMovie(searchText.value)
-}
 </script>
 
 <style scoped>
@@ -119,16 +88,6 @@ nav {
 
 .nav-router:hover {
   color: #76abae;
-}
-
-.search-box {
-  margin: 50px;
-}
-
-.inputBox {
-  border-color: white;
-  background-color: rgba(255, 255, 255, 0);
-  color: white;
 }
 </style>
 

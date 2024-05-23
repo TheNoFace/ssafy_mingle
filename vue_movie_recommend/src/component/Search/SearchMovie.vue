@@ -2,18 +2,19 @@
   <div class="text-color">
     <CategoryRecommendMovieCard
       v-for="movie in movies"
-      :key="movie.tmdb_id"
+      :key="movie.id"
       :movie="movie"
     />
   </div>
 </template>
 
 <script setup>
-import CategoryRecommendMovieCard from '@/component/Category/CategoryRecommendMovieCard.vue';
+import CategoryRecommendMovieCard from '@/component/Category/CategoryRecommendMovieCard.vue'
 
-defineProps({
+const props = defineProps({
   movies: Array,
-});
+})
 </script>
 
 <style scoped></style>
+ 
