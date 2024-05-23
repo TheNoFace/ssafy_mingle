@@ -19,10 +19,8 @@
         <p v-else>{{ movie.overview.substring(0, 440) }}...</p>
       </div>
       <!-- 장르 -->
-      <div style="padding: 20px;">
-        <p class="d-flex m-0 genre">장르 :
-        <p class="px-2 m-0" v-for="genre in movie.genres">{{ genre.name }}</p>
-        </p>
+      <div class="d-flex genre">
+        <p class="m-0 me-2 category-button rounded" v-for="genre in movie.genres">{{ genre.name }}</p>
       </div>
     </div>
   </div>
@@ -70,7 +68,7 @@ onMounted(() => {
 
 .genre {
   position: absolute;
-  left: 20px;
-  bottom: 20px;
+  left: 10px;
+  bottom: 10px;
 }
 </style>

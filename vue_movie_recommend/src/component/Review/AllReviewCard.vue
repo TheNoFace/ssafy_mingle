@@ -27,18 +27,6 @@
         {{ review.comment_set.length }}
       </h6>
     </div>
-
-    <!-- 버튼 -->
-    <div class="d-flex review-delete-update" v-if="nickname === review.user.nickname">
-      <!-- 리뷰 수정 버튼 -->
-      <button class="review-button" style="color: #0077ff;" @click.prevent="updateReview(review.id)">
-        <i class="fa-solid fa-pen"></i>
-      </button>
-      <!-- 리뷰 삭제 버튼 -->
-      <button class="review-button" @click.prevent="deleteReview(review.id)" style="color: #d43f3f;">
-        <i class="fa-solid fa-trash-can"></i>
-      </button>
-    </div>
   </div>
 </template>
 
