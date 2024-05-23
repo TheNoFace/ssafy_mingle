@@ -7,8 +7,8 @@
       <DetailMovieReview :reviews="store.detailMovie.review_set" />
     </div>
   </div>
-  <div v-else>
-    <p class="text-color">불러오는 중...</p>
+  <div v-else class="text-center">
+    <v-progress-circular indeterminate :size="70" :width="8"></v-progress-circular>
   </div>
 </template>
 

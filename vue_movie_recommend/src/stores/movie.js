@@ -4,8 +4,7 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import { useUserStore } from "./user";
 
-export const useMovieStore = defineStore(
-  "movie",
+export const useMovieStore = defineStore("movie",
   () => {
     const userStore = useUserStore()
     const router = useRouter()
@@ -122,7 +121,7 @@ export const useMovieStore = defineStore(
         url: `${BASE_URL}/api/v1/movies/review/detail/${review_id}`,
       })
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           reviewDetail.value = response.data;
         })
         .catch((error) => {

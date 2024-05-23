@@ -6,16 +6,16 @@
         리뷰 전체 보기
       </h6>
     </div>
-    <div class="d-flex scroll-container">
+    <div class="d-flex scroll-container py-5">
       <ReviewCard
         v-for="review in reviews.slice(0, 5)"
-        :key="review.content"
+        :key="review.id"
         :review="review"
       />
     </div>
     <div class="write-review" @click.prevent="goReviewWrite()">
       <i class="fa-solid fa-pen" style="color: #76abae"></i>
-      <p class="m-0 ms-2">리뷰 작성하기</p>
+      <p class="m-0 ms-2 ">리뷰 작성하기</p>
     </div>
   </div>
 </template>

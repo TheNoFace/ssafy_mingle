@@ -1,83 +1,49 @@
 <template>
-  <div class="review-border rounded" style="position: relative">
+  <div class="review-border rounded p-2" style="position: relative">
+    <!-- ReviewCard Header-->
+    <div class="container d-flex justify-content-between">
+      <div>
+        <p class="m-0">
+          <i class="fa-solid fa-circle-user" style="color: #76abae"></i>
+          <span class="ms-2">{{ review.user.nickname }}</span>
+        </p>
+      </div>
+      <!-- <div class="review-count mt-1"> -->
+      <div class="d-flex">
+        <p class="m-0">
+          <i class="fa-solid fa-thumbs-up mx-1"></i>
+          <span class="mx-1">{{ review.liked_users.length }}</span>
+        </p>
+        <p class="m-0 me-2">
+          <i class="fa-solid fa-comments mx-1"></i>
+          <span class="ms-1">{{ review.comment_set.length }}</span>
+        </p>
+      </div>
+    </div>
+
     <div class="p-2 scroll" @click.prevent="goDetailReview(review.id)" style="position: relative">
-      <p class="m-0">
-        <i class="fa-solid fa-circle-user" style="color: #76abae"></i>
-        {{ review.user.nickname }}
+      <p class="m-0 mb-4 fw-bold fs-5" style="width: 250px">
+        {{ review.title }}
       </p>
       <p class="m-0 mb-4" style="width: 250px">
         {{ review.content.substring(0, 71) }}...
       </p>
     </div>
-
-    <!-- 댓글 갯수, 좋아요 갯수 -->
-    <div class="review-count mt-1">
-      <p class="m-0">
-        <i class="fa-solid fa-thumbs-up mx-1"></i>{{ review.liked_users.length }}
-      </p>
-      <p class="m-0 me-2">
-        <i class="fa-solid fa-comments mx-1"></i>{{ review.comment_set.length }}
-      </p>
-    </div>
-
-    <div class="d-flex review-delete-update" v-if="nickname === review.user.nickname">
-      <!-- 리뷰 수정 버튼 -->
-      <button class="review-button" style="color: #0077ff;" @click.prevent="updateReview(review.id)">
-        <i class="fa-solid fa-pen"></i>
-      </button>
-      <!-- 리뷰 삭제 버튼 -->
-      <button class="review-button" @click.prevent="deleteReview(review.id)" style="color: #d43f3f;">
-        <i class="fa-solid fa-trash-can"></i>
-      </button>
-    </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useRouter } from "vue-router";
-import { useUserStore } from "@/stores/user";
-import { useMovieStore } from "@/stores/movie";
-import axios from "axios";
+import { useRouter } from "vue-router"
 
-const router = useRouter();
-const userStore = useUserStore();
-const store = useMovieStore();
+const router = useRouter()
 
 defineProps({
   review: Object,
-});
+})
 
 const goDetailReview = function (reviewId) {
-  router.push({ name: "ReviewDetailView", params: { review_id: reviewId } });
-};
-
-const deleteReview = function (reviewId) {
-  axios({
-    method: "delete",
-    url: `${store.BASE_URL}/api/v1/movies/review/detail/${reviewId}/`,
-    headers: {
-      Authorization: `Token ${userStore.sessionData.token}`,
-    },
-  })
-    .then(response => {
-      console.log(response)
-      router.go()
-    })
-    .catch(error => {
-      console.log(error)
-    })
-};
-
-const updateReview = function (reviewId) {
-  router.push({ name: "ReviewUpdateView", params: { review_id: reviewId } })
+  router.push({ name: "ReviewDetailView", params: { review_id: reviewId } })
 }
-
-const nickname = computed(() => {
-  if (userStore.isLogin) {
-    return userStore.sessionData.user.nickname
-  }
-})
 </script>
 
 <style scoped>
