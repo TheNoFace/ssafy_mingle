@@ -1,13 +1,13 @@
 <template>
   <div class="text-color container">
     <div v-if="store.recommendCategoryMovieList">
-      <p class="m-0 my-2">선택한 카테고리 : {{ categoryName }}</p>
-      <div
-        v-for="movie in store.recommendCategoryMovieList[1]"
-        :key="movie.tmdb_id"
-      >
+      <p class="m-0 my-2">{{ categoryName }} 장르의 영화를 보고있어요!</p>
+      <div v-for="movie in store.recommendCategoryMovieList[1]" :key="movie.tmdb_id">
         <CategoryRecommendMovieCard :movie="movie" />
       </div>
+    </div>
+    <div v-else class="text-center">
+      <v-progress-circular indeterminate :size="70" :width="8" color="white"></v-progress-circular>
     </div>
   </div>
 </template>

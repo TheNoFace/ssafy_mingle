@@ -14,15 +14,19 @@
       <RouterView />
     </div>
 
-    <div v-else>
-      <p class="text-color">총 {{ store.searchMovieList.total_results }}개의 검색 결과가 있습니다.</p>
-      <SearchMovie :movies="store.searchMovieList.results" />
+    <div v-else class="text-center">
+      <div v-if="store.searchMovieList.results">
+        <SearchMovie :movies="store.searchMovieList.results" />
+      </div>
+      <div v-else>
+        <v-progress-circular indeterminate :size="70" :width="8" color="white"></v-progress-circular>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
 import { useRouter } from "vue-router"
 import { useUserStore, useUserTempStore } from "@/stores/user"
 import { useMovieStore } from "@/stores/movie"
@@ -39,6 +43,12 @@ const router = useRouter()
 const search = function () {
   store.searchMovie(searchText.value)
 }
+
+onMounted(() => {
+  if (store.searchMovieList.results) {
+    store.searchMovieList.results = null
+  }
+})
 </script>
 
 <style scoped>
