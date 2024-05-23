@@ -137,34 +137,36 @@ export const useUserTempStore = defineStore("userTemp", () => {
   const tempData = ref(null)
 
   const checkPermission = function (username = null) {
-    if (username) {
-      axios({
-        method: 'post',
-        url: `${userStore.AUTH_BASE_URL}/profile/${username}/check/`,
-        headers: {
-          'Authorization': `Token ${userStore.sessionData.token}`
-        }
-      })
-        .then(() => {
-          hasPermission.value = true
+    if (userStore.sessionData) {
+      if (username) {
+        axios({
+          method: 'post',
+          url: `${userStore.AUTH_BASE_URL}/profile/${username}/check/`,
+          headers: {
+            'Authorization': `Token ${userStore.sessionData.token}`
+          }
         })
-        .catch((error) => {
-          console.log((error.response.status))
+          .then(() => {
+            hasPermission.value = true
+          })
+          .catch((error) => {
+            console.log((error.response.status))
+          })
+      } else {
+        axios({
+          method: 'get',
+          url: `${userStore.AUTH_BASE_URL}/profile/undefined/check/`,
+          headers: {
+            'Authorization': `Token ${userStore.sessionData.token}`
+          }
         })
-    } else {
-      axios({
-        method: 'get',
-        url: `${userStore.AUTH_BASE_URL}/profile/undefined/check/`,
-        headers: {
-          'Authorization': `Token ${userStore.sessionData.token}`
-        }
-      })
-        .then((response) => {
-          tempData.value = response.data
-        })
-        .catch((error) => {
-          console.log((error.response.status))
-        })
+          .then((response) => {
+            tempData.value = response.data
+          })
+          .catch((error) => {
+            console.log((error.response.status))
+          })
+      }
     }
   }
 
