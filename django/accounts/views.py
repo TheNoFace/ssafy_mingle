@@ -17,12 +17,23 @@ from knox.auth import TokenAuthentication
 # local apps import
 from .serializers import *
 
+from movies.models import Genre
+
 User = get_user_model()
 
 
 class CreateUserView(generics.CreateAPIView):
     # Create user API view
     serializer_class = UserCreateSerializer
+
+    def perform_create(self, serializer):
+        user = serializer.save()
+        genres = list(map(int, self.request.data.get("genres").split(",")))
+        for genre_id in genres:
+            print(genre_id)
+            genre = get_object_or_404(Genre, pk=genre_id)
+            user.liked_genres.add(genre)
+        return Response(user, status=status.HTTP_201_CREATED)
 
 
 class LoginView(KnoxLoginView):

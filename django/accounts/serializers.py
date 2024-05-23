@@ -85,7 +85,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
                 model = Comment
                 fields = ("content",)
 
-        user = UserSerializer(read_only = True)
+        user = UserSerializer(read_only=True)
         movie = MovieImageSerializer(read_only=True)
         comment_set = ReviewCommentSerializer(many=True, read_only=True)
 

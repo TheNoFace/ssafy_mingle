@@ -107,13 +107,13 @@ const router = createRouter({
     },
     {
       path: '/:tmdb_id/review',
-      name : "ReviewFormView",
-      component : ReviewFormView
+      name: "ReviewFormView",
+      component: ReviewFormView
     },
     {
       path: '/review/:review_id/update',
-      name : 'ReviewUpdateView',
-      component : ReviewUpdateView
+      name: 'ReviewUpdateView',
+      component: ReviewUpdateView
     }
   ],
 })
