@@ -1,7 +1,7 @@
 <template>
   <div class="review-border rounded p-2" style="position: relative">
     <!-- ReviewCard Header-->
-    <div class="container d-flex justify-content-between">
+    <div class="container">
       <div>
         <p class="m-0">
           <i class="fa-solid fa-circle-user" style="color: #76abae"></i>
@@ -9,7 +9,7 @@
         </p>
       </div>
       <!-- <div class="review-count mt-1"> -->
-      <div class="d-flex">
+      <div class="d-flex review-delete-update">
         <p class="m-0">
           <i class="fa-solid fa-thumbs-up mx-1"></i>
           <span class="mx-1">{{ review.liked_users.length }}</span>
@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <div class="p-2 scroll" @click.prevent="goDetailReview(review.id)" style="position: relative">
+    <div class="p-2 scroll" @click.prevent="goDetailReview(review.id)">
       <p class="m-0 mb-4 fw-bold fs-5" style="width: 250px">
         {{ review.title }}
       </p>
@@ -66,8 +66,8 @@ const goDetailReview = function (reviewId) {
 
 .review-delete-update {
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 10px;
+  bottom: 10px;
 }
 
 .review-button {
