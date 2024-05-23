@@ -32,7 +32,7 @@ onMounted(()=> {
       },
   })
     .then(response => {
-      console.log(response.data)
+      // console.log(response.data)
       movieList.value = response.data
     })
     .catch(error => {

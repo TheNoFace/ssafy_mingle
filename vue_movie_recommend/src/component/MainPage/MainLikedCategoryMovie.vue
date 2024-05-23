@@ -43,7 +43,7 @@ onMounted(() => {
     .then(response => {
       // console.log(response.data)
       movieList.value = response.data
-      console.log(movieList.value)
+      // console.log(movieList.value)
     })
     .catch(error => {
       console.log(error)

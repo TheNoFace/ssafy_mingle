@@ -5,7 +5,7 @@
         <i class="fa-solid fa-user"></i>
         <p class="m-0 ms-2">{{ comment.user.nickname }}</p>
       </div>
-      <div class="d-flex comment-delete-update" v-if="userStore.isLogin && nickname === comment.user.nickname">
+      <div class="d-flex comment-delete-update" v-if="userTempStore.tempData && userTempStore.tempData.nickname === comment.user.nickname">
         <!-- 댓글 수정 버튼 -->
         <button class="comment-button" style="color: #0077ff;" @click.prevent="showCommentForm(comment.id)">
           <i class="fa-solid fa-pen"></i>
@@ -37,8 +37,8 @@
 import axios from 'axios'
 import { computed, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useUserStore, useUserTempStore } from '@/stores/user';
-import { useMovieStore } from '@/stores/movie';
+import { useUserStore, useUserTempStore } from '@/stores/user'
+import { useMovieStore } from '@/stores/movie'
 
 const userStore = useUserStore()
 const userTempStore = useUserTempStore()
@@ -50,7 +50,7 @@ const reviewId = route.params.review_id
 
 const props = defineProps({
   comment: Object,
-});
+})
 
 const deleteComment = function (commentId) {
   axios({
@@ -61,9 +61,7 @@ const deleteComment = function (commentId) {
     },
   })
     .then(response => {
-      console.log('delete')
       store.getDetailReview(reviewId)
-      // router.go()
     })
     .catch(error => {
       console.log(error)
@@ -79,7 +77,7 @@ const nickname = computed(() => {
 const show = ref(false)
 const showCommentForm = function () {
   show.value = !show.value
-  console.log(!show.value)
+  // console.log(!show.value)
 }
 
 const updateForm = ref(null)
@@ -98,7 +96,7 @@ const likeComment = function (commentId) {
     },
   })
     .then(response => {
-      console.log(response.data)
+      // console.log(response.data)
       router.go()
     })
     .catch(error => {

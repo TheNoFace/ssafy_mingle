@@ -21,6 +21,7 @@ env_file = json.load(open(f"{BASE_DIR}/.env", "r"))
 
 User = get_user_model()
 
+
 # Create your views here.
 @api_view(["GET"])
 def get_movie_list(request, standard):
@@ -95,7 +96,7 @@ def get_category_movie(request, genre_pk):
 @api_view(["GET"])
 def get_review_list(request):
     if request.method == "GET":
-        count = int(request.GET.get('page')) * 10
+        count = int(request.GET.get("page")) * 10
         reviews = get_list_or_404(Review.objects.order_by("-vote"))[:count]
         serializer = ReviewListSerializer(reviews, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -204,7 +205,7 @@ def search_movie(request):
                     # print(f"Added movie {movie['id']}")
                     # count += 1
                 # else:
-                    # print(f"Skipped adding movie {movie['id']}")
+                # print(f"Skipped adding movie {movie['id']}")
             # print(f'Added total {count} movie(s)')
             return Response(response, status=status.HTTP_200_OK)
         else:
@@ -225,28 +226,27 @@ def search_movie(request):
     return Response(err_msg, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-@api_view(['GET'])
+@api_view(["GET"])
 def liked_movie(request):
     if request.user.is_authenticated:
-        if request.method == 'GET':
+        if request.method == "GET":
             movies = request.user.liked_movies.all()[:10]
-            serializer = MovieListSerializer(movies, many = True)
+            serializer = MovieListSerializer(movies, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-@api_view(['GET'])
+
+@api_view(["GET"])
 def liked_category_movie(request):
-    print('gegeg')
     if request.user.is_authenticated:
-        if request.method == 'GET':
+        if request.method == "GET":
             category_list = request.user.liked_genres.all()
-            print(category_list)
 
             categories = random.choices(category_list, k=3)
-            
+
             movie_list = {}
             for category in categories:
                 movies = category.movies.all().order_by("-release_date")[:10]
                 serializer = MovieListSerializer(movies, many=True)
                 movie_list[category.name] = serializer.data
-            
+
             return Response(movie_list, status=status.HTTP_200_OK)
