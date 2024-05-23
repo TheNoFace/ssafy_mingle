@@ -3,8 +3,9 @@
     <nav class="navbar">
       <div class="nav-left">
         <div>
-          <RouterLink :to="{ name: 'MainView' }">
-            <i class="fa-solid fa-video p-3" style="color: #76abae; height: 30px" />
+          <RouterLink :to="{ name: 'MainView' }" class="d-flex align-items-center" style="text-decoration: none;">
+            <i class="fa-solid fa-video p-3 pe-1" style="color: #76abae; height: 30px" />
+            <p class="m-0 atma-semibold">Mingle</p>
           </RouterLink>
         </div>
         <div class="nav-standard">
@@ -93,6 +94,7 @@ nav {
 
 <style>
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css");
+@import url('https://fonts.googleapis.com/css2?family=Atma:wght@600&family=Black+Han+Sans&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 * {
   background-color: #222831;
@@ -125,5 +127,13 @@ nav {
 ::-webkit-scrollbar-thumb {
   background-color: #76abae;
   border-radius: 10px;
+}
+
+.atma-semibold {
+  font-family: "Atma", system-ui;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 30px;
+  color: #76abae;
 }
 </style>
