@@ -1,10 +1,6 @@
 <template>
   <div class="review-border rounded" style="position: relative">
-    <div
-      class="p-2 scroll"
-      @click.prevent="goDetailReview(review.id)"
-      style="position: relative"
-    >
+    <div class="p-2 scroll" @click.prevent="goDetailReview(review.id)" style="position: relative">
       <p class="m-0">
         <i class="fa-solid fa-circle-user" style="color: #76abae"></i>
         {{ review.user.nickname }}
@@ -13,24 +9,32 @@
         {{ review.content.substring(0, 71) }}...
       </p>
     </div>
+
     <!-- 댓글 갯수, 좋아요 갯수 -->
     <div class="review-count mt-1">
       <p class="m-0">
-        <i class="fa-solid fa-thumbs-up mx-1"></i
-        >{{ review.liked_users.length }}
+        <i class="fa-solid fa-thumbs-up mx-1"></i>{{ review.liked_users.length }}
       </p>
       <p class="m-0 me-2">
         <i class="fa-solid fa-comments mx-1"></i>{{ review.comment_set.length }}
       </p>
     </div>
-    <!-- 리뷰 삭제 버튼 -->
-    <button class="review-delete" @click.prevent="deleteReview(review.id)">
-      <i class="fa-solid fa-trash-can"></i>
-    </button>
+
+    <div class="d-flex review-delete-update" v-if="nickname === review.user.nickname">
+      <!-- 리뷰 수정 버튼 -->
+      <button class="review-button" style="color: #0077ff;" @click.prevent="updateReview(review.id)">
+        <i class="fa-solid fa-pen"></i>
+      </button>
+      <!-- 리뷰 삭제 버튼 -->
+      <button class="review-button" @click.prevent="deleteReview(review.id)" style="color: #d43f3f;">
+        <i class="fa-solid fa-trash-can"></i>
+      </button>
+    </div>
   </div>
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
 import { useMovieStore } from "@/stores/movie";
@@ -64,6 +68,16 @@ const deleteReview = function (reviewId) {
       console.log(error)
     })
 };
+
+const updateReview = function (reviewId) {
+  router.push({ name: "ReviewUpdateView", params: { review_id: reviewId } })
+}
+
+const nickname = computed(() => {
+  if (userStore.isLogin) {
+    return userStore.sessionData.user.nickname
+  }
+})
 </script>
 
 <style scoped>
@@ -84,11 +98,13 @@ const deleteReview = function (reviewId) {
   bottom: 5px;
 }
 
-.review-delete {
+.review-delete-update {
   position: absolute;
   right: 0;
   top: 0;
+}
+
+.review-button {
   border: none;
-  color: rgb(212, 63, 63);
 }
 </style>

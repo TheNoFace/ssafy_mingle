@@ -15,6 +15,7 @@ import ProfileMovie from "@/component/Profile/ProfileMovie.vue"
 import ProfileReview from "@/component/Profile/ProfileReview.vue"
 import ProfileComment from "@/component/Profile/ProfileComment.vue"
 import ReviewFormView from "@/views/ReviewFormView.vue"
+import ReviewUpdateView from "@/views/ReviewUpdateView.vue"
 import SearchMovie from "@/component/Search/SearchMovie.vue"
 import SearchView from "@/views/SearchView.vue"
 
@@ -106,8 +107,13 @@ const router = createRouter({
     },
     {
       path: '/:tmdb_id/review',
-      name: "ReviewFormView",
-      component: ReviewFormView
+      name : "ReviewFormView",
+      component : ReviewFormView
+    },
+    {
+      path: '/review/:review_id/update',
+      name : 'ReviewUpdateView',
+      component : ReviewUpdateView
     }
   ],
 })

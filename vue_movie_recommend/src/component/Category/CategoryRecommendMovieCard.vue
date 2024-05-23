@@ -1,8 +1,30 @@
 <template>
-  <div class="top-detail col text-color rounded" @click="goDetail(movieData.tmdb_id)">
-    <!-- 이미지 -->
-    <div class="col-2 detail-img">
-      <img :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`" :alt="`등록된 포스터가 없습니다.`" width="100%">
+    <div class="top-detail col text-color rounded" @click.prevent="goDetail(movie.id)">
+        <!-- 이미지 -->
+        <div class="col-2 detail-img">
+            <img :src="`https://image.tmdb.org/t/p/original${movie.poster_path}`" :alt="`등록된 포스터가 없습니다.`" width="100%">
+        </div>
+        <div class="col-10" style="position: relative;">
+            <!-- 제목, 평점 -->
+            <div class="detail-title">
+                <h1 style="font-size: 30px;">{{ movie.title }}</h1>
+                <h3>
+                    <i class="fa-solid fa-star" style="color: yellow;"></i>
+                    {{ (movie.vote_average/2).toFixed(1) }}
+                </h3>
+            </div>
+            <!-- 줄거리 -->
+            <div style="padding: 20px;">
+                <p v-if="movie.overview.length < 440">{{ movie.overview }}</p>
+                <p v-else>{{ movie.overview.substring(0, 440) }}...</p>
+            </div>
+            <!-- 장르 -->
+            <div style="padding: 20px;">
+                <p class="d-flex m-0 genre">장르 : 
+                    <p class="px-2 m-0" v-for="genre in movie.genres">{{ genre.name }}</p>
+                </p>
+            </div>
+        </div>  
     </div>
     <div class="col-10" style="position: relative;">
       <!-- 제목, 평점 -->

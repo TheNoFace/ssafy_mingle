@@ -1,10 +1,14 @@
 import { ref, computed } from "vue";
+import { useRouter } from 'vue-router'
 import { defineStore } from "pinia";
 import axios from "axios";
+import { useUserStore } from "./user";
 
 export const useMovieStore = defineStore(
   "movie",
   () => {
+    const userStore = useUserStore()
+    const router = useRouter()
     const popularityMovieList = ref([]);
     const releaseMovieList = ref([]);
     const categoryMovieList = ref([]);
@@ -140,6 +144,47 @@ export const useMovieStore = defineStore(
         });
     };
 
+    const updateReview = function (payload, reviewId, movieId) {
+      axios({
+        method: "put",
+        url: `${BASE_URL}/api/v1/movies/review/detail/${reviewId}/`,
+        headers: {
+          Authorization: `Token ${userStore.sessionData.token}`,
+        },
+        data: payload,
+      })
+        .then((response) => {
+          getDetailMovie(response.data.movie)
+          router.push({
+            name: "DetailView",
+            params: { tmdb_id : response.data.movie },
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+
+    const updateComment = function (payload, commentId, reviewId) {
+      // console.log(payload.getAll('content'))
+      axios({
+        method : 'put',
+        url : `${BASE_URL}/api/v1/movies/comment/${commentId}/`,
+        headers: {
+          Authorization: `Token ${userStore.sessionData.token}`,
+        },
+        data: payload,
+      })
+        .then(response => {
+          console.log(response.data)
+          getDetailReview(reviewId)
+          router.go()
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+
     return {
       popularityMovieList,
       releaseMovieList,
@@ -160,6 +205,8 @@ export const useMovieStore = defineStore(
       getReviewList,
       getDetailReview,
       searchMovie,
+      updateReview,
+      updateComment,
     };
   },
   { persist: true }

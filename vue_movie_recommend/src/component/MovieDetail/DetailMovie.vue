@@ -10,7 +10,7 @@
                 <h1 style="font-size: 70px;">{{ movie.title }}</h1>
                 <h3>
                     <i class="fa-solid fa-star" style="color: yellow;"></i>
-                    {{ movie.vote_average }}
+                    {{ (movie.vote_average/2).toFixed(1) }}
                 </h3>
             </div>
             <!-- 줄거리 -->
@@ -19,13 +19,11 @@
             </div>
             <!-- 러닝타임, 국가, 장르 -->
             <div style="padding: 20px;">
-                <p>러닝타임 :</p>
-                <p>국가 : </p>
-                <p class="d-flex">장르 : 
-                    <p class="px-2" v-for="genre in movie.genres">{{ genre.name }}</p>
-                </p>
+                <div class="d-flex">
+                    <p class="px-2 category-button rounded" v-for="genre in movie.genres">{{ genre.name }}</p>
+                </div>
             </div>
-        </div>  
+        </div>
     </div>
 </template>
 
