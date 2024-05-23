@@ -12,4 +12,6 @@ urlpatterns = [
     path("movies/comment/<int:comment_pk>/", views.comment_manage),
     path("movies/like/<str:target_model>/<int:target_pk>/", views.like_target),
     path("movies/search/tmdb/", views.search_movie),
+    path('movies/like/movie/', views.liked_movie),
+    path('movies/like/category/movie/', views.liked_category_movie),
 ]

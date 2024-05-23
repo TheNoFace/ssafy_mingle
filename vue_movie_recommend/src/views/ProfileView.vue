@@ -10,18 +10,29 @@
       {{ userData.followers.length }}
     </p>
 
-    <div class="d-flex" v-if="userTempStore.hasPermission">
-      <RouterLink :to="{ name: 'ProfileUpdateView' }" class="profile-change">
-        <p class="profile-button rounded ms-0" style="width: 100px">
-          프로필 수정
-        </p>
-      </RouterLink>
-      <button @click="logOut" class="profile-change profile-button rounded">
-        로그아웃
-      </button>
-      <button @click="logOutAll" class="profile-change profile-button rounded">
-        모든 기기에서 로그아웃
-      </button>
+
+    <div>
+      <div class="d-flex" v-if="userTempStore.hasPermission"> 
+        <RouterLink :to="{ name: 'ProfileUpdateView' }" class="profile-change">
+          <p class="profile-button rounded ms-0" style="width: 100px">
+            프로필 수정
+          </p>
+        </RouterLink>
+        <button @click="logOut" class="profile-change profile-button rounded">
+          로그아웃
+        </button>
+        <button @click="logOutAll" class="profile-change profile-button rounded">
+          모든 기기에서 로그아웃
+        </button>
+      </div>
+  
+      <div v-else>
+        <div v-if="userData">
+          <button class="profile-change profile-button rounded" @click="followClick(userData.username)">
+            {{ isFollowing }}
+          </button>
+        </div>
+      </div>
     </div>
 
     <RouterLink :to="{ name: 'ProfileGenre' }" class="nav-router ps-0">Genre</RouterLink>
@@ -35,14 +46,18 @@
 
 <script setup>
 import { useUserStore, useUserTempStore } from "@/stores/user"
-import { ref, onMounted } from "vue"
+import { ref, onMounted, computed } from "vue"
 import { useRoute, RouterLink, RouterView } from "vue-router"
 import axios from "axios"
 
 const route = useRoute()
-const userStore = useUserStore()
-const userTempStore = useUserTempStore()
+const userStore = useUserStore()  // 현재 프로필 사용자 정보
+const userTempStore = useUserTempStore()  // 현재 요청한 사용자 정보
 const userData = ref(null)
+
+const isFollowing = computed(() => {
+  return userData.value.followers.find(id => id === userTempStore.tempData.id) ? '팔로우 취소' : '팔로우'
+})
 
 const logOut = function () {
   userStore.logOut()
@@ -50,6 +65,11 @@ const logOut = function () {
 
 const logOutAll = function () {
   userStore.logOutAll()
+}
+
+const followClick = function (userName) {
+  console.log('clicked')
+  followUser(userName)
 }
 
 const getProfileDetail = function (userName) {
@@ -64,6 +84,22 @@ const getProfileDetail = function (userName) {
       console.log(error)
     })
 }
+
+const followUser = function (userName) {
+    axios({
+      method: "put",
+      url: `${userStore.AUTH_BASE_URL}/profile/${userName}/follow/`,
+      headers: {
+        Authorization: `Token ${userStore.sessionData.token}`,
+      },
+    })
+      .then((response) => {
+        getProfileDetail(userName)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
 
 onMounted(() => {
   userTempStore.checkPermission(route.params.username)

@@ -1,6 +1,7 @@
 from django.shortcuts import get_list_or_404, get_object_or_404
 from django.apps import apps
 from django.conf import settings
+from django.contrib.auth import get_user_model
 
 from rest_framework.response import Response
 from rest_framework import status
@@ -18,6 +19,7 @@ BASE_DIR = settings.BASE_DIR
 
 env_file = json.load(open(f"{BASE_DIR}/.env", "r"))
 
+User = get_user_model()
 
 # Create your views here.
 @api_view(["GET"])
@@ -38,7 +40,7 @@ def get_movie_list(request, standard):
 
             movie_list = {}
             for category in categories:
-                movies = category.movies.all()[:10]
+                movies = category.movies.all().order_by("-release_date")[:10]
                 serializer = MovieListSerializer(movies, many=True)
                 movie_list[category.name] = serializer.data
 
@@ -220,3 +222,30 @@ def search_movie(request):
     except Exception as err:
         err_msg = {"An unexpected error occurred": f"{err}"}
     return Response(err_msg, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['GET'])
+def liked_movie(request):
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            movies = request.user.liked_movies.all()[:10]
+            serializer = MovieListSerializer(movies, many = True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def liked_category_movie(request):
+    print('gegeg')
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            category_list = request.user.liked_genres.all()
+            print(category_list)
+
+            categories = random.choices(category_list, k=3)
+            
+            movie_list = {}
+            for category in categories:
+                movies = category.movies.all().order_by("-release_date")[:10]
+                serializer = MovieListSerializer(movies, many=True)
+                movie_list[category.name] = serializer.data
+            
+            return Response(movie_list, status=status.HTTP_200_OK)

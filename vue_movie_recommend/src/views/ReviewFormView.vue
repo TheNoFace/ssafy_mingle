@@ -1,6 +1,7 @@
 <template>
   <div class="text-color" v-if="movie">
     <h1>리뷰 작성 페이지</h1>
+    <form @submit.prevent="createReview">
     <!-- 영화 정보 -->
     <div class="movie-info-border rounded d-flex" style="padding: 10px">
       <div class="col-1">
@@ -35,7 +36,6 @@
     </div>
 
     <!-- 리뷰 작성 폼 -->
-    <form @submit.prevent="createReview">
       <input class="form-control review-input" type="text" placeholder="제목을 입력하세요." v-model.trim="title" />
       <textarea class="form-control review-input" type="text" placeholder="리뷰 내용을 입력하세요." style="height: 300px"
         v-model.trim="content"></textarea>
@@ -76,14 +76,14 @@ const createReview = function () {
     data: {
       title: title.value,
       content: content.value,
-      vote: vote,
+      vote: vote.value,
     },
     headers: {
       Authorization: `Token ${userStore.sessionData.token}`,
     },
   })
     .then((response) => {
-      // console.log(response);
+      console.log(response);
       router.push({ name: "DetailView" });
     })
     .catch((error) => {
@@ -143,16 +143,18 @@ input::placeholder {
 .star-rating label {
   -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
   -webkit-text-stroke-width: 2.3px;
-  -webkit-text-stroke-color: #2b2a29;
+  -webkit-text-stroke-color: white;
   cursor: pointer;
 }
  
 .star-rating :checked ~ label {
   -webkit-text-fill-color: #ffff72;
+  -webkit-text-stroke-color: #fff58c
 }
  
 .star-rating label:hover,
 .star-rating label:hover ~ label {
   -webkit-text-fill-color: #fff58c;
+  -webkit-text-stroke-color: #fff58c
 }
 </style>

@@ -18,8 +18,21 @@
     <div class="container">
       <MainReleased />
     </div>
-    <div class="container">
-      <MainCategoryMovie />
+
+    <div>
+      <!-- 로그인 되지 않은 경우 -->
+      <div class="container" v-if="!userStore.isLogin">
+        <MainCategoryMovie />
+      </div>
+      <!-- 로그인 된 경우 -->
+      <div v-else>
+        <div class="container">
+          <MainLikedMovie />
+        </div>
+        <div class="container">
+          <MainLikedCategoryMovie />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -28,9 +41,13 @@
 import MainPopularity from "@/component/MainPage/MainPopularity.vue"
 import MainReleased from "@/component/MainPage/MainReleased.vue"
 import MainCategoryMovie from "@/component/MainPage/MainCategoryMovie.vue"
+import MainLikedMovie from "@/component/MainPage/MainLikedMovie.vue"
+import MainLikedCategoryMovie from "@/component/MainPage/MainLikedCategoryMovie.vue"
 import { useRouter } from 'vue-router'
+import { useUserStore } from "@/stores/user"
 
 const router = useRouter()
+const userStore = useUserStore()
 
 const search = function () {
   router.push({ name: 'SearchView' })

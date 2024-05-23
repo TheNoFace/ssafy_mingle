@@ -5,7 +5,7 @@
 
     <!-- 좋아요, 댓글 개수, 버튼 -->
     <div class="d-flex my-3 mb-5">
-      <h3 class="m-0 ms-2">
+      <h3 class="m-0 ms-2" @click.prevent="likeReview(review.id)">
         <i class="fa-solid fa-thumbs-up me-2" style="height: 30px"></i>
         {{ review.liked_users.length }}
       </h3>
@@ -31,10 +31,14 @@ import ReviewComment from "@/component/Review/ReviewComment.vue";
 import CommentForm from "@/component/Review/CommentForm.vue";
 import { onMounted, computed } from "vue";
 import { useMovieStore } from "@/stores/movie";
-import { useRoute } from "vue-router";
+import { useUserStore } from "@/stores/user";
+import { useRoute, useRouter } from "vue-router";
+import axios from 'axios'
 
 const route = useRoute();
+const router = useRouter()
 const store = useMovieStore();
+const userStore = useUserStore()
 
 const reviewId = route.params.review_id;
 
@@ -45,6 +49,23 @@ onMounted(() => {
 const review = computed(() => {
   return store.reviewDetail
 })
+
+const likeReview = function (reviewId) {
+  axios({
+    method : 'post',
+    url : `${store.BASE_URL}/api/v1/movies/like/review/${reviewId}/`,
+    headers: {
+      Authorization: `Token ${userStore.sessionData.token}`,
+    },
+  })
+    .then(response => {
+      console.log(response.data)
+      router.go()
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
 </script>
 
 <style scoped></style>
